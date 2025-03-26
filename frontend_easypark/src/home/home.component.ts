@@ -10,25 +10,17 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  user: any = null;
-  isLoggedIn: boolean = false;
+  userEmail: string | null = null; // Estado del usuario autenticado
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    const storedUser = localStorage.getItem('user');
-    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-    if (storedUser) {
-      this.user = JSON.parse(storedUser);
-    }
+    // Recupera el correo del usuario desde sessionStorage
+    this.userEmail = sessionStorage.getItem('userEmail');
   }
 
-  goToProfile() {
-    this.router.navigate(['/profile']); // Aquí redirigiría al perfil
-  }
   logout() {
-    localStorage.removeItem('isLoggedIn');
-    this.router.navigate(['/']);
+    sessionStorage.clear(); // Limpia los datos almacenados
+    this.userEmail = null; // Resetea el estado del usuario
   }
 }

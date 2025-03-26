@@ -132,10 +132,24 @@ body {
 }
 
 .btn-search {
-    background-color: rgb(240, 220, 0);
+    background-color: yellow;
     border: none;
     padding: 10px 15px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+}
+
+.btn.red {
+    background-color: yellow; /* Cambia este color al que prefieras */
+    color: #000;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn.red:hover {
+    background-color: #f69e06; /* Color al pasar el cursor */
 }

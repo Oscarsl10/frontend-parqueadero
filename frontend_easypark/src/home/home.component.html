@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EASY PARK</title>
-    <link rel="stylesheet" type="text/css" href="styles.css"> 
 </head>
 <body>
     <div class="home">
@@ -16,18 +15,19 @@
                 <a href="#">Planes</a>
                 <a href="#">Contacto</a>
             </nav>
-        
             <div class="auth-buttons">
-                <ng-container *ngIf="isLoggedIn; else notLoggedIn">
-                    <button class="btn white" (click)="goToProfile()">👤 {{ user.name }}</button>
-                    <button class="btn white" *ngIf="isLoggedIn" (click)="logout()">Cerrar sesión</button>
-                </ng-container>                
-        
-                <ng-template #notLoggedIn>
-                    <button class="btn yellow" routerLink="/login">Iniciar sesión</button>
-                    <button class="btn white" routerLink="/register">Registro</button>
+                <!-- Si el usuario está autenticado -->
+                <div *ngIf="userEmail; else guestButtons">
+                  <span>Bienvenido, {{ userEmail }}</span>
+                  <button class="btn red" (click)="logout()">Cerrar sesión</button>
+                </div>
+          
+                <!-- Plantilla para invitados -->
+                <ng-template #guestButtons>
+                  <button class="btn yellow" routerLink="/login">Iniciar sesión</button>
+                  <button class="btn white" routerLink="/register">Registro</button>
                 </ng-template>
-            </div>
+              </div>
         </header>        
 
         <section class="hero">

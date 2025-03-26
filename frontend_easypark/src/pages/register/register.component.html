@@ -3,6 +3,23 @@
   <div class="form-container">
     <h1>🅿 EASY PARK</h1>
 
+    
+    <div *ngIf="registerSuccess" class="alert alert-success d-flex align-items-center" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      <div>Registro exitoso, redirigiendo...</div>
+    </div>
+    
+    
+    <div *ngIf="registerError" class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>Correo o contraseña incorrectos.</div>
+    </div>
+    
+    <div *ngIf="register.invalid && register.touched" class="alert alert-warning d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-circle-fill me-2"></i>
+      <div>Por favor, complete todos los campos.</div>
+    </div>
+
     <form [formGroup]="register" (ngSubmit)="handleSubmit()">
       <label for="name">Nombre</label>
       <input type="text" id="name" placeholder="Ingrese su nombre" formControlName="name">
