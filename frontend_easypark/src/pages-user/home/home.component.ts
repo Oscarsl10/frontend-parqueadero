@@ -10,17 +10,24 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  userEmail: string | null = null; // Estado del usuario autenticado
+  userEmail: string | null = null;
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    // Recupera el correo del usuario desde sessionStorage
-    this.userEmail = sessionStorage.getItem('userEmail');
+    this.userEmail = sessionStorage.getItem('userEmail'); // Obtiene el email almacenado en sesión
   }
 
-  logout() {
-    sessionStorage.clear(); // Limpia los datos almacenados
-    this.userEmail = null; // Resetea el estado del usuario
+  goToProfile() {
+    this.router.navigate(['/profile']); // Redirige al perfil
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']); // Redirige a iniciar sesión
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']); // Redirige a registrarse
   }
 }
+

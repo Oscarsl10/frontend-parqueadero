@@ -1,45 +1,59 @@
 <div class="container">
-    <div class="image-container"></div>
-    <div class="form-container">
-      <h1>🅿 EASY PARK</h1>
-  
-     
-  <div *ngIf="loginSuccess" class="alert alert-success d-flex align-items-center" role="alert">
-    <i class="bi bi-check-circle-fill me-2"></i>
-    <div>Inicio de sesión exitoso, redirigiendo...</div>
-  </div>
-  
-  
-  <div *ngIf="loginError" class="alert alert-danger d-flex align-items-center" role="alert">
-    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-    <div>Correo o contraseña incorrectos.</div>
-  </div>
-  
-  <div *ngIf="dataAdmin.invalid && dataAdmin.touched" class="alert alert-warning d-flex align-items-center" role="alert">
-    <i class="bi bi-exclamation-circle-fill me-2"></i>
-    <div>Por favor, complete todos los campos.</div>
-  </div>
-  
-  
-      <form [formGroup]="dataAdmin" (ngSubmit)="handleSubmit()">
-        <label for="adminEmail">Correo Electrónico</label>
-        <input type="adminEmail" id="adminEmail" placeholder="Ingrese su correo" formControlName="userId">
-        <span *ngIf="dataAdmin.get('userId')?.invalid && dataAdmin.get('userId')?.touched" class="text-danger">
-          <span *ngIf="dataAdmin.get('userId')?.errors?.['required']">El correo es obligatorio.</span>
-          <span *ngIf="dataAdmin.get('userId')?.errors?.['email']">Ingrese un correo válido (ejemplo&#64;dominio.com).</span>
-        </span>
-  
-        <br/><br/><br/>
-        <label for="password">Contraseña</label>
-        <input type="password" id="password" placeholder="Ingrese su contraseña" formControlName="password">
-        <span *ngIf="dataAdmin.get('password')?.invalid && dataAdmin.get('password')?.touched" class="text-danger">
-          <span *ngIf="dataAdmin.get('password')?.errors?.['required']">La contraseña es obligatoria.</span>
-        </span>
-  
-        <br/><br/><br/>
-        <button type="submit">Iniciar Sesión</button>
-  
-      </form>
+  <div class="image-container"></div>
+  <div class="form-container">
+    <h1>🅿 EASY PARK</h1>
+
+
+    <div *ngIf="loginSuccess" class="alert alert-success d-flex align-items-center" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      <div>Inicio de sesión exitoso, redirigiendo...</div>
     </div>
+    
+    
+    <div *ngIf="loginError" class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>Correo o contraseña incorrectos.</div>
+    </div>
+    
+    <div *ngIf="dataAdmin.invalid && dataAdmin.touched" class="alert alert-warning d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-circle-fill me-2"></i>
+      <div>Por favor, complete todos los campos.</div>
+    </div>
+
+
+    <form [formGroup]="dataAdmin" (ngSubmit)="handleSubmit()">
+      <!-- Correo Electrónico -->
+      <label for="email">Correo Electrónico</label>
+      <input type="email" id="email" placeholder="Ingrese su correo" formControlName="userId" class="form-control"
+        [ngClass]="{'ng-invalid ng-touched': dataAdmin.get('userId')?.invalid && dataAdmin.get('userId')?.touched}">
+
+      <!-- Mensaje de error si el correo es inválido -->
+      <div *ngIf="dataAdmin.get('userId')?.invalid && dataAdmin.get('userId')?.touched" class="error">
+        <span *ngIf="dataAdmin.get('userId')?.errors?.['required']">⚠ El correo es obligatorio. *</span>
+        <span *ngIf="dataAdmin.get('userId')?.errors?.['email']">⚠ Ingrese un correo válido (ejemplo&#64;dominio.com). *</span>
+      </div>
+      
+      <div *ngIf="emailTakenError" class="alert alert-warning d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <div>El correo ya está registrado. Intente con otro.</div> 
+      </div>
+
+      <br /><br /><br />
+
+      <!-- Contraseña -->
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" placeholder="Ingrese su contraseña" formControlName="password"
+        class="form-control"
+        [ngClass]="{'ng-invalid ng-touched': dataAdmin.get('password')?.invalid && dataAdmin.get('password')?.touched}">
+
+      <!-- Mensaje de error si la contraseña es inválida -->
+      <div *ngIf="dataAdmin.get('password')?.invalid && dataAdmin.get('password')?.touched" class="error">
+        <span *ngIf="dataAdmin.get('password')?.errors?.['required']">⚠ La contraseña es obligatoria. *</span>
+      </div>
+
+      <br /><br /><br />
+      <button type="submit">Iniciar Sesión</button>
+
+    </form>
   </div>
-  
+</div>

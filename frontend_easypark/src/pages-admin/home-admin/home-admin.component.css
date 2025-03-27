@@ -153,3 +153,10 @@ body {
 .btn.red:hover {
     background-color: #f69e06; /* Color al pasar el cursor */
 }
+
+.auth-buttons div {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre el correo y el botón */
+  }
+  

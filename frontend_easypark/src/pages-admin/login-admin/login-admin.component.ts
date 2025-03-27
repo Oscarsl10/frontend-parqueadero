@@ -6,9 +6,10 @@ import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login-admin',
+  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule],
   templateUrl: './login-admin.component.html',
-  styleUrl: './login-admin.component.css'
+  styleUrls: ['./login-admin.component.css']
 })
 export class LoginAdminComponent {
   dataAdmin = new FormGroup({
@@ -20,6 +21,8 @@ export class LoginAdminComponent {
   loginError = false; // Estado de error del login
 
   constructor(private httpClient: HttpClient, private router: Router) {}
+
+  emailTakenError = false; // Nueva variable para mostrar la alerta de correo en uso
 
   public handleSubmit() {
     if (this.dataAdmin.invalid) {
@@ -38,7 +41,7 @@ export class LoginAdminComponent {
 
         // Almacena el correo ingresado en sessionStorage
         const adminEmail = this.dataAdmin.get('userId')?.value; // Obtén el correo desde el formulario
-        sessionStorage.setItem('AdminEmail', adminEmail || ''); // Guarda el correo en sessionStorage
+        sessionStorage.setItem('adminEmail', adminEmail || ''); // Guarda el correo en sessionStorage
 
         // Redirige al componente Home después de 2 segundos
         setTimeout(() => {
@@ -55,6 +58,12 @@ export class LoginAdminComponent {
       }
     }, (error) => {
       console.error('Error en la solicitud:', error);
+      if (error.status === 400){
+        this.emailTakenError = true; // Activa la alerta en el HTML
+    setTimeout(() => {
+      this.emailTakenError = false;
+    }, 3000);
+      }
       this.loginError = true; // Manejo de error de servidor
       setTimeout(() => {
         this.loginError = false;

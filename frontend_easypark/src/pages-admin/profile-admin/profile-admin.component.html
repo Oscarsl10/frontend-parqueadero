@@ -1,0 +1,37 @@
+<div class="profile-container">
+    <div class="profile-header">
+      <h1>Mi perfil</h1>
+    </div>
+  
+    <div class="profile-content">
+      <div class="profile-picture">
+        <img src="https://cdn-icons-png.flaticon.com/512/3106/3106773.png" alt="Foto de perfil">
+      </div>
+  
+      <div class="profile-info">
+        <div class="info-row">
+          <strong>Nombre</strong>
+          <span>{{ adminData.full_name }}</span>
+        </div>
+        <div class="info-row">
+          <strong>Email</strong>
+          <span>{{ adminData.email }}</span>
+        </div>
+        <div class="info-row">
+          <strong>Teléfono</strong>
+          <span>{{ adminData.telefono }}</span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="profile-history">
+        <strong>Tipo de usuario</strong>
+        <span>Administrador</span>
+      </div>
+      <div class="button-container">
+        <button class="logout-button" (click)="logout()">Cerrar Sesión</button>
+      </div>
+      </div>
+ 
+ 
+  

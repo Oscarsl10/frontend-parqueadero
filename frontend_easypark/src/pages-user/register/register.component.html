@@ -21,6 +21,7 @@
       <div>Por favor, complete todos los campos.</div>
     </div>
 
+
     <form [formGroup]="register" (ngSubmit)="handleSubmit()">
       <label for="full_name">Nombre Completo</label>
       <input type="text" id="full_name" placeholder="Ingrese su nombre" formControlName="full_name">
@@ -35,6 +36,17 @@
         <span *ngIf="register.get('email')?.errors?.['email'] || register.get('email')?.errors?.['pattern']">Ingrese un
           correo válido (ejemplo&#64;dominio.com).</span>
       </div>
+
+      <!-- Alerta si el correo pertenece a un administrador -->
+      <div *ngIf="adminEmailError" class="alert alert-warning d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <div>El correo ingresado pertenece a un administrador.</div>
+      </div>
+      <!-- Alerta si el correo ya está registrado en Users -->
+      <div *ngIf="emailTakenError" class="alert alert-warning d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-circle-fill me-2"></i>
+        <div>El correo ya está registrado. Intente con otro.</div>
+      </div>
 
       <label for="telefono">Teléfono</label>
       <input type="text" id="telefono" placeholder="Ingrese su teléfono" formControlName="telefono">

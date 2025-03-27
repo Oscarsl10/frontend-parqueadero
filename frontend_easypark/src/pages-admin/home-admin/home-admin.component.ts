@@ -18,6 +18,14 @@ export class HomeAdminComponent {
     this.adminEmail = sessionStorage.getItem('adminEmail');
   }
 
+  goToProfile() {
+    this.router.navigate(['/admin/profile']); // Redirige al perfil
+  }
+
+  goToLogin() {
+    this.router.navigate(['/admin/login']); // Redirige a iniciar sesión
+  }
+
   logout() {
     sessionStorage.clear(); // Limpia los datos almacenados
     this.adminEmail = null; // Resetea el estado del usuario

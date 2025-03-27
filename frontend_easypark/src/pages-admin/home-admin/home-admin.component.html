@@ -18,8 +18,8 @@
             <div class="auth-buttons">
                 <!-- Si el usuario está autenticado -->
                 <div *ngIf="adminEmail; else guestButtons">
-                  <span>Bienvenido, {{ adminEmail }}</span>
-                  <button class="btn red" (click)="logout()">Cerrar sesión</button>
+                    <span>Bienvenido, {{ adminEmail }}</span>
+                    <button class="btn red" (click)="goToProfile()">Mi Perfil</button>
                 </div>
           
                 <!-- Plantilla para invitados -->

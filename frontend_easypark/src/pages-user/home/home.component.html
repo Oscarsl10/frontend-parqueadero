@@ -9,34 +9,37 @@
     <div class="home">
         <header class="navbar">
             <div class="logo"> 🅿️ <strong><span class="easy">EASY</span> <span class="park">PARK</span></strong></div>
+            
             <nav>
                 <a href="#">Inicio</a>
                 <a href="#">Características</a>
                 <a href="#">Planes</a>
                 <a href="#">Contacto</a>
             </nav>
+
             <div class="auth-buttons">
                 <!-- Si el usuario está autenticado -->
                 <div *ngIf="userEmail; else guestButtons">
-                  <span>Bienvenido, {{ userEmail }}</span>
-                  <button class="btn red" (click)="logout()">Cerrar sesión</button>
+                    <span>Bienvenido, {{ userEmail }}</span>
+                    <button class="btn blue" (click)="goToProfile()">Mi Perfil</button>
                 </div>
-          
-                <!-- Plantilla para invitados -->
+
+                <!-- Plantilla para usuarios no autenticados -->
                 <ng-template #guestButtons>
-                  <button class="btn yellow" routerLink="/login">Iniciar sesión</button>
-                  <button class="btn white" routerLink="/register">Registro</button>
+                    <button class="btn yellow" routerLink="/login">Iniciar sesión</button>
+                    <button class="btn white" routerLink="/register">Registro</button>
                 </ng-template>
-              </div>
-        </header>        
+            </div>
+        </header>
 
         <section class="hero">
             <div class="hero-content">
                 <h2>Bienvenidos a <span class="easy">EASY</span> <span class="park">PARK</span></h2>
                 <p>
-                    EasyPark es la forma más fácil de encontrar y gestionar tu estacionamiento. 
-                    Reserva tu espacio en segundos a través de nuestra plataforma, disfruta de pagos sin contacto y accede a ubicaciones seguras y convenientes. 
-                    Olvídate del estrés de buscar parqueo y ahorra tiempo con EasyPark. 
+                    EasyPark es la forma más fácil de encontrar y gestionar tu estacionamiento.
+                    Reserva tu espacio en segundos a través de nuestra plataforma, disfruta de pagos sin contacto y
+                    accede a ubicaciones seguras y convenientes.
+                    Olvídate del estrés de buscar parqueo y ahorra tiempo con EasyPark.
                     ¡Tu parqueadero, a un clic de distancia!
                 </p>
 
@@ -46,9 +49,9 @@
                         <p>Neiva - Huila</p>
                     </div>
                     <button class="btn-search">Buscar parqueo</button>
-                </div>                
-            </div> 
-        </section> 
+                </div>
+            </div>
+        </section>
     </div>
 </body>
 </html>

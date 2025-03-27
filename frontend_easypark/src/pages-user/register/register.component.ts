@@ -32,18 +32,23 @@ export class RegisterComponent {
   registerSuccess = false;
   registerError = false;
   formInvalid = false; 
+  emailTakenError = false;
+  adminEmailError = false;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
+  
   
   passwordMatchValidator(form: AbstractControl) {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
+  
     
     if (password !== confirmPassword) {
       return { passwordMismatch: true };
     }
     return null;
   }
+  
 
   public handleSubmit() {
     if (this.register.invalid) {
@@ -61,6 +66,8 @@ export class RegisterComponent {
         console.log(response);
         this.registerSuccess = true;
         this.registerError = false;
+        this.adminEmailError = false;
+        this.emailTakenError = false;
         this.formInvalid = false;
 
         setTimeout(() => {
@@ -69,9 +76,21 @@ export class RegisterComponent {
       },
       (error) => {
         console.error(error);
+        if (error.status === 409 && error.error) {
+          switch (error.error) {
+            case "ADMIN_EMAIL":
+              this.adminEmailError = true;
+              break;
+            case "USER_EMAIL":
+              this.emailTakenError = true;
+              break;
+          }
+          setTimeout(() => {
+            this.adminEmailError = false;
+            this.emailTakenError = false;
+          }, 5000);
+        }
         this.registerError = true;
-        this.registerSuccess = false;
-
         setTimeout(() => {
           this.registerError = false;
         }, 3000);
