@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Validators } from '@angular/forms';
 
@@ -13,20 +13,37 @@ import { Validators } from '@angular/forms';
   styleUrls: ['./register.component.css']
 })
 
-
 export class RegisterComponent {
   register = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    name: new FormControl('', Validators.required),
-    phone: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required)
-  });
-
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ]),
+    full_name: new FormControl('', Validators.required),
+    telefono: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^\d{1,10}$/)
+    ]),
+    password: new FormControl('', Validators.required),
+    confirmPassword: new FormControl('', Validators.required)
+  }, { validators: this.passwordMatchValidator });
+  
   registerSuccess = false;
   registerError = false;
   formInvalid = false; 
 
   constructor(private httpClient: HttpClient, private router: Router) {}
+  
+  passwordMatchValidator(form: AbstractControl) {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    
+    if (password !== confirmPassword) {
+      return { passwordMismatch: true };
+    }
+    return null;
+  }
 
   public handleSubmit() {
     if (this.register.invalid) {

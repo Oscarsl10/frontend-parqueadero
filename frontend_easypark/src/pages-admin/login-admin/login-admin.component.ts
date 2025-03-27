@@ -1,24 +1,20 @@
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
+  selector: 'app-login-admin',
   imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'] // Corrige el plural aquí
+  templateUrl: './login-admin.component.html',
+  styleUrl: './login-admin.component.css'
 })
-export class LoginComponent {
-  // Formulario reactivo para los datos del usuario
-  data = new FormGroup({
+export class LoginAdminComponent {
+  dataAdmin = new FormGroup({
     userId: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required),
-    
+    password: new FormControl('', Validators.required)
   });
-
 
   loginSuccess = false; // Estado de éxito del login
   loginError = false; // Estado de error del login
@@ -26,14 +22,14 @@ export class LoginComponent {
   constructor(private httpClient: HttpClient, private router: Router) {}
 
   public handleSubmit() {
-    if (this.data.invalid) {
-      this.data.markAllAsTouched(); // Marca todos los campos como tocados
+    if (this.dataAdmin.invalid) {
+      this.dataAdmin.markAllAsTouched(); // Marca todos los campos como tocados
       return;
     }
 
-    console.log(this.data.value); // Datos enviados al backend
+    console.log(this.dataAdmin.value); // Datos enviados al backend
 
-    this.httpClient.post('http://localhost:8082/loginUser', this.data.value).subscribe((response: any) => {
+    this.httpClient.post('http://localhost:8082/loginAdmin', this.dataAdmin.value).subscribe((response: any) => {
       console.log(response); // Respuesta del backend
 
       if (response === true) {
@@ -41,12 +37,12 @@ export class LoginComponent {
         this.loginError = false;
 
         // Almacena el correo ingresado en sessionStorage
-        const userEmail = this.data.get('userId')?.value; // Obtén el correo desde el formulario
-        sessionStorage.setItem('userEmail', userEmail || ''); // Guarda el correo en sessionStorage
+        const adminEmail = this.dataAdmin.get('userId')?.value; // Obtén el correo desde el formulario
+        sessionStorage.setItem('AdminEmail', adminEmail || ''); // Guarda el correo en sessionStorage
 
         // Redirige al componente Home después de 2 segundos
         setTimeout(() => {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/admin/home']);
         }, 1000);
       } else {
         // Manejo de error si las credenciales no son válidas

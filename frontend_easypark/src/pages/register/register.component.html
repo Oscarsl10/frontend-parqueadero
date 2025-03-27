@@ -3,35 +3,65 @@
   <div class="form-container">
     <h1>🅿 EASY PARK</h1>
 
-    
+
     <div *ngIf="registerSuccess" class="alert alert-success d-flex align-items-center" role="alert">
       <i class="bi bi-check-circle-fill me-2"></i>
       <div>Registro exitoso, redirigiendo...</div>
     </div>
-    
-    
+
+
     <div *ngIf="registerError" class="alert alert-danger d-flex align-items-center" role="alert">
       <i class="bi bi-exclamation-triangle-fill me-2"></i>
       <div>Correo o contraseña incorrectos.</div>
     </div>
-    
-    <div *ngIf="register.invalid && register.touched" class="alert alert-warning d-flex align-items-center" role="alert">
+
+    <div *ngIf="register.invalid && register.touched" class="alert alert-warning d-flex align-items-center"
+      role="alert">
       <i class="bi bi-exclamation-circle-fill me-2"></i>
       <div>Por favor, complete todos los campos.</div>
     </div>
 
     <form [formGroup]="register" (ngSubmit)="handleSubmit()">
-      <label for="name">Nombre</label>
-      <input type="text" id="name" placeholder="Ingrese su nombre" formControlName="name">
+      <label for="full_name">Nombre Completo</label>
+      <input type="text" id="full_name" placeholder="Ingrese su nombre" formControlName="full_name">
+      <div *ngIf="register.get('full_name')?.invalid && register.get('full_name')?.touched" class="error">
+        <span *ngIf="register.get('full_name')?.errors?.['required']">⚠ El nombre es obligatorio. *</span>
+      </div>
 
       <label for="email">Correo Electrónico</label>
       <input type="email" id="email" placeholder="Ingrese su correo" formControlName="email">
+      <div *ngIf="register.get('email')?.invalid && register.get('email')?.touched" class="error">
+        <span *ngIf="register.get('email')?.errors?.['required']">⚠ El correo es obligatorio. *</span>
+        <span *ngIf="register.get('email')?.errors?.['email'] || register.get('email')?.errors?.['pattern']">Ingrese un
+          correo válido (ejemplo&#64;dominio.com).</span>
+      </div>
 
-      <label for="phone">Teléfono</label>
-      <input type="phone" id="phone" placeholder="Ingrese su teléfono" formControlName="phone">
+      <label for="telefono">Teléfono</label>
+      <input type="text" id="telefono" placeholder="Ingrese su teléfono" formControlName="telefono">
+      <div *ngIf="register.get('telefono')?.invalid && register.get('telefono')?.touched" class="error">
+        <span *ngIf="register.get('telefono')?.errors?.['required']">⚠ El teléfono es obligatorio. *</span>
+        <span *ngIf="register.get('telefono')?.errors?.['pattern']">⚠ El teléfono debe contener solo números y máximo 10
+          dígitos. *</span>
+      </div>
 
       <label for="password">Contraseña</label>
       <input type="password" id="password" placeholder="Ingrese su contraseña" formControlName="password">
+      <div *ngIf="register.get('password')?.invalid && register.get('password')?.touched" class="error">
+        <span *ngIf="register.get('password')?.errors?.['required']">⚠ La contraseña es obligatoria.</span>
+      </div>
+
+      <label for="confirmPassword">Confirmación de contraseña</label>
+      <input type="password" id="confirmPassword" placeholder="Ingrese nuevamente su contraseña"
+        formControlName="confirmPassword">
+      <div *ngIf="register.get('confirmPassword')?.invalid && register.get('confirmPassword')?.touched" class="error">
+        <span *ngIf="register.get('confirmPassword')?.errors?.['required']"> ⚠ La confirmación de contraseña es
+          obligatoria. *</span>
+      </div>
+
+      <!-- Mensaje de error si las contraseñas no coinciden -->
+      <div *ngIf="register.errors?.['passwordMismatch'] && register.touched" class="error">
+        <span> ⚠ Las contraseñas no coinciden. *</span>
+      </div>
 
       <button type="submit">Registrarse</button>
 
