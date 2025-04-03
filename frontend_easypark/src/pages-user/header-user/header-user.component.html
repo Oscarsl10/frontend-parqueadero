@@ -1,0 +1,26 @@
+<div>
+    <header class="navbar">
+    <div class="logo"> 🅿️ <strong><span class="easy">EASY</span> <span class="park">PARK</span></strong></div>
+    
+    <nav>
+        <a href="#">Inicio</a>
+        <a href="#">Características</a>
+        <a href="#">Planes</a>
+        <a href="#">Contacto</a>
+    </nav>
+
+    <div class="auth-buttons">
+        <!-- Si el usuario está autenticado -->
+        <div *ngIf="userEmail; else guestButtons">
+            <span style="color: white;">Bienvenido, {{ userEmail }}</span>
+            <a class="btn blue" [routerLink]="'/user/home'">Mi Perfil</a>
+        </div>
+
+        <!-- Plantilla para usuarios no autenticados -->
+        <ng-template #guestButtons>
+            <button class="btn yellow" routerLink="/login">Iniciar sesión</button>
+            <button class="btn white" routerLink="/register">Registro</button>
+        </ng-template>
+    </div>
+</header>
+</div>

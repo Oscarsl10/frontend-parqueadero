@@ -1,56 +1,66 @@
+<app-header-general></app-header-general>
 <div class="container">
   <div class="image-container"></div>
   <div class="form-container">
     <h1>🅿 EASY PARK</h1>
 
-   
-<div *ngIf="loginSuccess" class="alert alert-success d-flex align-items-center" role="alert">
-  <i class="bi bi-check-circle-fill me-2"></i>
-  <div>Inicio de sesión exitoso, redirigiendo...</div>
-</div>
+
+    <div *ngIf="loginSuccess" class="alert alert-success d-flex align-items-center" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      <div>Inicio de sesión exitoso, redirigiendo...</div>
+    </div>
 
 
-<div *ngIf="loginError" class="alert alert-danger d-flex align-items-center" role="alert">
-  <i class="bi bi-exclamation-triangle-fill me-2"></i>
-  <div>Correo o contraseña incorrectos.</div>
-</div>
+    <div *ngIf="loginError" class="alert alert-danger d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>Correo o contraseña incorrectos.</div>
+    </div>
 
-<div *ngIf="data.invalid && data.touched" class="alert alert-warning d-flex align-items-center" role="alert">
-  <i class="bi bi-exclamation-circle-fill me-2"></i>
-  <div>Por favor, complete todos los campos.</div>
-</div>
+    <div *ngIf="data.invalid && data.touched" class="alert alert-warning d-flex align-items-center" role="alert">
+      <i class="bi bi-exclamation-circle-fill me-2"></i>
+      <div>Por favor, complete todos los campos.</div>
+    </div>
 
 
-<form [formGroup]="data" (ngSubmit)="handleSubmit()">
-  <!-- Correo Electrónico -->
-<label for="email">Correo Electrónico</label>
-<input type="email" id="email" placeholder="Ingrese su correo" formControlName="userId" class="form-control" [ngClass]="{'ng-invalid ng-touched': data.get('userId')?.invalid && data.get('userId')?.touched}">
+    <form [formGroup]="data" (ngSubmit)="handleSubmit()">
+      <!-- Correo Electrónico -->
+      <label for="email">Correo Electrónico</label>
+      <input type="email" id="email" placeholder="Ingrese su correo" formControlName="userId" class="form-control"
+        [ngClass]="{'ng-invalid ng-touched': data.get('userId')?.invalid && data.get('userId')?.touched}">
 
-<!-- Mensaje de error si el correo es inválido -->
-<div *ngIf="data.get('userId')?.invalid && data.get('userId')?.touched" class="error">
-  <span *ngIf="data.get('userId')?.errors?.['required']">⚠ El correo es obligatorio. *</span>
-  <span *ngIf="data.get('userId')?.errors?.['email']">⚠ Ingrese un correo válido (ejemplo&#64;dominio.com) *.</span>
-</div>
+      <!-- Mensaje de error si el correo es inválido -->
+      <div *ngIf="data.get('userId')?.invalid && data.get('userId')?.touched" class="error">
+        <span *ngIf="data.get('userId')?.errors?.['required']">⚠ El correo es obligatorio. *</span>
+        <span *ngIf="data.get('userId')?.errors?.['email']">⚠ Ingrese un correo válido (ejemplo&#64;dominio.com)
+          *.</span>
+      </div>
 
-<br/><br/><br/>
+      <br /><br /><br />
 
-<!-- Contraseña -->
-<label for="password">Contraseña</label>
-<input type="password" id="password" placeholder="Ingrese su contraseña" formControlName="password" class="form-control" [ngClass]="{'ng-invalid ng-touched': data.get('password')?.invalid && data.get('password')?.touched}">
+      <!-- Contraseña -->
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" placeholder="Ingrese su contraseña" formControlName="password"
+        class="form-control"
+        [ngClass]="{'ng-invalid ng-touched': data.get('password')?.invalid && data.get('password')?.touched}">
 
-<!-- Mensaje de error si la contraseña es inválida -->
-<div *ngIf="data.get('password')?.invalid && data.get('password')?.touched" class="error">
-  <span *ngIf="data.get('password')?.errors?.['required']">⚠ La contraseña es obligatoria. *</span>
-</div>
+      <!-- Mensaje de error si la contraseña es inválida -->
+      <div *ngIf="data.get('password')?.invalid && data.get('password')?.touched" class="error">
+        <span *ngIf="data.get('password')?.errors?.['required']">⚠ La contraseña es obligatoria. *</span>
+      </div>
 
-      <br/><br/><br/>
+      <br /><br />
       <button type="submit">Iniciar Sesión</button>
 
-      <br/><br/><br/>
+      <br /><br />
       <a [routerLink]="'/register'">¿No tienes una cuenta? Regístrate aquí</a>
 
-      <br/><br/><br/>
+      <br />
+      <a [routerLink]="'/recuperar'">¿Olvidaste tu contraseña? Haz clic aquí</a>
+
+      <br /><br />
       <a [routerLink]="'/admin/login'">Iniciar Sesión como Administrador</a>
+
+      
     </form>
   </div>
 </div>

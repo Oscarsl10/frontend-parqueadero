@@ -1,6 +1,20 @@
+<app-header-user></app-header-user>
+
 <div class="profile-container">
   <div class="profile-header">
     <h1>Mi perfil</h1>
+  </div>
+
+  <!-- ✅ Mensaje de éxito -->
+  <div *ngIf="updateSuccess" class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <div>¡Perfil actualizado con éxito!</div>
+  </div>
+
+  <!-- ❌ Mensaje de error -->
+  <div *ngIf="errorMessage" class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <div>{{ errorMessage }}</div>
   </div>
 
   <div class="profile-content">
@@ -8,20 +22,34 @@
       <img src="https://cdn-icons-png.flaticon.com/512/3106/3106773.png" alt="Foto de perfil">
     </div>
 
-    <div class="profile-info">
+    <form [formGroup]="userForm" class="profile-info">
       <div class="info-row">
         <strong>Nombre</strong>
-        <span>{{ user.full_name }}</span>
+        <span *ngIf="!isEditing">{{ userForm.get('full_name')?.value }}</span>
+        <input *ngIf="isEditing" type="text" formControlName="full_name" required />
       </div>
+
       <div class="info-row">
         <strong>Email</strong>
-        <span>{{ user.email }}</span>
+        <span>{{ user.email || userEmail }}</span>
       </div>
+
       <div class="info-row">
         <strong>Teléfono</strong>
-        <span>{{ user.telefono }}</span>
+        <span *ngIf="!isEditing">{{ userForm.get('telefono')?.value }}</span>
+        <input *ngIf="isEditing" type="text" formControlName="telefono" required />
       </div>
-    </div>
+
+      <div class="info-row" *ngIf="isEditing">
+        <strong>Contraseña actual</strong>
+        <input type="password" formControlName="oldPassword" placeholder="Dejar en blanco para no cambiar" />
+      </div>
+
+      <div class="info-row" *ngIf="isEditing">
+        <strong>Nueva contraseña</strong>
+        <input type="password" formControlName="newPassword" placeholder="Nueva contraseña" />
+      </div>
+    </form>
   </div>
 
   <div class="profile-history">
@@ -30,7 +58,11 @@
       <span>Cliente</span>
     </div>
   </div>
+
   <div class="button-container">
+    <button *ngIf="!isEditing" class="edit-button" (click)="startEditing()">Editar Perfil</button>
+    <button *ngIf="isEditing" class="save-button" (click)="saveChanges()">Guardar Cambios</button>
+    <button *ngIf="isEditing" class="cancel-button" (click)="cancelEdit()">Cancelar</button>
     <button class="logout-button" (click)="logout()">Cerrar Sesión</button>
   </div>
 </div>

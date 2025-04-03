@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { HeaderUserComponent } from '../header-user/header-user.component';
 
 @Component({
   selector: 'app-home',

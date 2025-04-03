@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+import { HeaderAdminComponent } from "../header-admin/header-admin.component";
 
 @Component({
   selector: 'app-home-admin',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, HeaderAdminComponent],
   templateUrl: './home-admin.component.html',
   styleUrl: './home-admin.component.css'
 })
@@ -18,13 +19,13 @@ export class HomeAdminComponent {
     this.adminEmail = sessionStorage.getItem('adminEmail');
   }
 
-  goToProfile() {
+  /*goToProfile() {
     this.router.navigate(['/admin/profile']); // Redirige al perfil
   }
 
   goToLogin() {
     this.router.navigate(['/admin/login']); // Redirige a iniciar sesión
-  }
+  }*/
 
   logout() {
     sessionStorage.clear(); // Limpia los datos almacenados

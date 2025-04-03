@@ -95,12 +95,13 @@ html, body {
 }
 .button-container {
     display: flex;
+    gap: 10px; /* Espacio entre los botones */
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 15px;
   }
   
   .logout-button {
-    background-color: #ff4d4d;
+    background-color: #ff0000;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -111,6 +112,47 @@ html, body {
   }
   
   .logout-button:hover {
-    background-color: #cc0000;
+    background-color: #ff3d3d;
+  }
+  
+  .edit-button {
+    background-color: #00a2ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .edit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* ✅ Botón Guardar Cambios */
+  .save-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .save-button:hover {
+    background-color: #218838;
+  }
+  
+  /* ❌ Botón Cancelar */
+  .cancel-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .cancel-button:hover {
+    background-color: #c82333;
   }
   

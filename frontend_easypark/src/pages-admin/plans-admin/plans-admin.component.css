@@ -1,0 +1,72 @@
+.admin-plans {
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: white;
+}
+
+/* Título */
+.plans-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: rgb(0, 0, 0);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Contenedor de tarjetas */
+.cards-container {
+    display: flex;
+    flex-direction: row; /* Asegura que estén en línea horizontal */
+    justify-content: center;
+    align-items: stretch;
+    gap: 20px;
+    overflow-x: auto; /* Habilita desplazamiento horizontal */
+    white-space: nowrap; /* Evita que bajen de línea */
+    padding: 20px;
+    
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Agranda la tarjeta en un 5% */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Agrega una sombra más fuerte */
+}
+
+/* Tarjetas */
+.card {
+    flex: 0 0 300px; /* Ancho fijo y no se encoge */
+    background: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    scroll-snap-align: center;
+    white-space: normal; /* Asegura que el texto se vea bien */
+    border: 2px solid #ebeb3d; /* Verde */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Efecto de sombra */
+    
+}
+
+/* Título de la tarjeta */
+.card h2 {
+    font-size: 22px;
+    margin: 10px 0;
+    color: black;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5)
+}
+
+/* Línea divisoria */
+.card hr {
+    border: 1px solid #ddd;
+}
+
+/* Texto */
+.card p {
+    font-size: 16px;
+    color: black;
+}

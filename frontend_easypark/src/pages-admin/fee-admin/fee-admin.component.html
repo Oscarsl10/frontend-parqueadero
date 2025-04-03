@@ -1,0 +1,21 @@
+<app-header-admin></app-header-admin>
+<form (ngSubmit)="agregarTarifa()">
+  <label>Tipo de vehículo:</label>
+  <input type="string" [(ngModel)]="nuevaTarifa.tipoVehiculo" name="tipoVehiculo" required />
+
+  <label>Precio:</label>
+  <input type="number" [(ngModel)]="nuevaTarifa.precio" name="precio" required />
+
+  <label>Fecha:</label>
+  <input type="date" [(ngModel)]="nuevaTarifa.fecha" name="fecha" required />
+
+  <div *ngIf="registerSuccess" class="alert alert-success">
+    <i class="bi bi-check-circle-fill"></i> Registro exitoso.
+  </div>
+  
+  <div *ngIf="registerError" class="alert alert-danger">
+    <i class="bi bi-exclamation-triangle-fill"></i> Error al registrar. Intente de nuevo.
+  </div>
+  
+  <button type="submit">Agregar Tarifa</button>
+</form>

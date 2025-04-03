@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Validators } from '@angular/forms';
+import { HeaderGeneralComponent } from '../../header-general/header-general.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule, HeaderGeneralComponent],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
@@ -61,7 +62,7 @@ export class RegisterComponent {
     }
 
     console.log(this.register.value);
-    this.httpClient.post('http://localhost:8082/addUser', this.register.value).subscribe(
+    this.httpClient.post('http://localhost:8082/api/addUser', this.register.value).subscribe(
       (response: any) => {
         console.log(response);
         this.registerSuccess = true;

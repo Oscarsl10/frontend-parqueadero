@@ -3,11 +3,12 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { HeaderGeneralComponent } from "../../header-general/header-general.component";
 
 @Component({
   selector: 'app-login-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule, HeaderGeneralComponent],
   templateUrl: './login-admin.component.html',
   styleUrls: ['./login-admin.component.css']
 })
@@ -32,7 +33,7 @@ export class LoginAdminComponent {
 
     console.log(this.dataAdmin.value); // Datos enviados al backend
 
-    this.httpClient.post('http://localhost:8082/loginAdmin', this.dataAdmin.value).subscribe((response: any) => {
+    this.httpClient.post('http://localhost:8082/api/loginAdmin', this.dataAdmin.value).subscribe((response: any) => {
       console.log(response); // Respuesta del backend
 
       if (response === true) {

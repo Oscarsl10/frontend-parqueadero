@@ -1,0 +1,118 @@
+/* Estilos generales */
+.admin-register {
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+    background-image: url('https://nbm.org/wp-content/uploads/2024/08/SSparkinggarage-SLeavitt.jpg'); /* Imagen de fondo */
+    background-size: cover; /* Ajusta la imagen al tamaño del contenedor */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* No repetir la imagen */
+    background-attachment: fixed; /* Fija la imagen al hacer scroll */
+    color: white; /* Para mejorar la visibilidad del texto sobre la imagen */
+}
+img {
+    max-width: 100%; /* Ajusta la imagen al tamaño del contenedor */
+    height: auto; /* Mantiene la proporción */
+  }
+
+/* Contenedor del formulario */
+.container {
+    max-width: 350px;
+    background: linear-gradient(135deg, #d0d058, #f6c43a);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: white;
+    margin-top: 100px;
+     /* ⬅ Ajusta este valor según necesites */
+}
+.container:hover {
+    transform: scale(1.02);
+}
+
+/* Título */
+h2 {
+    font-size: 24px; /* 🔹 Reducido */
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Alertas */
+.alert {
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 13px; /* 🔹 Más pequeño */
+    font-weight: bold;
+}
+
+.alert-success {
+    background: #4caf50;
+    color: white;
+}
+
+.alert-danger {
+    background: #e53935;
+    color: white;
+}
+
+/* Inputs */
+.form-control {
+    width: 100%;
+    padding: 10px; /* 🔹 Menos padding */
+    margin-bottom: 12px; /* 🔹 Menos espacio */
+    border: none;
+    border-radius: 8px;
+    font-size: 14px; /* 🔹 Texto más pequeño */
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+}
+
+.form-control:focus {
+    outline: none;
+    border: 2px solid #000000;
+    box-shadow: 0px 0px 8px rgba(255, 64, 129, 0.6);
+}
+
+/* Mensajes de error */
+.text-danger {
+    font-size: 12px; /* 🔹 Más compacto */
+    color: #ffeb3b;
+    font-weight: bold;
+}
+
+/* Botón */
+button {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(45deg, #000000, #000000);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled {
+    background: #bdbdbd;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+button:hover:not(:disabled) {
+    background: linear-gradient(45deg, #a1a1a1, #ffffff);
+    transform: scale(1.05);
+}
+
+/* Mejoras en etiquetas */
+label {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+    color: #ffffff;
+}
