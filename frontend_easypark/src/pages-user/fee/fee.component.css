@@ -1,0 +1,88 @@
+/* Contenedor principal más pequeño y centrado */
+.fee {
+  padding: 20px;
+  min-height: 100vh;
+  background-image: url('https://media.istockphoto.com/id/472933698/fr/photo/vide-parking-souterrain.jpg?s=612x612&w=0&k=20&c=X9n884moGwheLCDAxPg27A96RM3GxsNf_N1Oi5RRfP4='); /* Imagen de fondo */
+  background-size: cover; /* Ajusta la imagen al tamaño del contenedor */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* No repetir la imagen */
+  background-attachment: fixed; /* Fija la imagen al hacer scroll */
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+  }
+  
+  /* Estilo para los encabezados de la tabla */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th {
+    background-color: #395B64;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    font-size: 0.9rem;
+  }
+  
+  td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  /* Estilo para filas alternadas */
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Estilo para el nombre de cada tipo de vehículo */
+  h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  /* Estilo de la fila de la tabla cuando se pasa el ratón */
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Contenedor principal */
+  .app-header-admin {
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+  
+  .custom-btn {
+    background-color: #fd4646; /* Verde esmeralda */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, background-color 0.2s;
+  }
+  
+  .custom-btn:hover {
+    transform: scale(1.05);
+    background-color: #ff0000; /* Un poco más oscuro al pasar el mouse */
+  }
+  
+  

@@ -1,0 +1,29 @@
+<app-header-admin></app-header-admin>
+
+<div class="fee">
+<div class="container mt-4">
+  <div class="d-flex justify-content-end mb-3">
+    <button class="custom-btn" [routerLink]="['/admin/fee']">
+      🛠️ Administrar Tarifas
+    </button>
+  </div>
+  <h2 class="text-center mb-4 fw-bold">Tarifas Registradas</h2>
+  <div *ngFor="let tipo of ['Carro', 'Moto', 'Bicicleta']">
+    <h4 class="fw-bold">{{ tipo }}</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre Tarifa</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tarifa of getTarifasPorTipo(tipo)">
+          <td>{{ tarifa.nombreTarifa }}</td>
+          <td>{{ tarifa.precio | currency: 'COP ' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>

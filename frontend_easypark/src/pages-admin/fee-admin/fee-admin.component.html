@@ -1,21 +1,119 @@
 <app-header-admin></app-header-admin>
-<form (ngSubmit)="agregarTarifa()">
-  <label>Tipo de vehículo:</label>
-  <input type="string" [(ngModel)]="nuevaTarifa.tipoVehiculo" name="tipoVehiculo" required />
 
-  <label>Precio:</label>
-  <input type="number" [(ngModel)]="nuevaTarifa.precio" name="precio" required />
+<div class="container mt-4">
+  <h2 class="text-center mb-4 fw-bold">Administración de Tarifas</h2>
 
-  <label>Fecha:</label>
-  <input type="date" [(ngModel)]="nuevaTarifa.fecha" name="fecha" required />
-
-  <div *ngIf="registerSuccess" class="alert alert-success">
-    <i class="bi bi-check-circle-fill"></i> Registro exitoso.
+  <!-- ALERTA: Actualización exitosa -->
+  <div *ngIf="updateSuccess" class="alert alert-success d-flex align-items-center mt-3" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <div>Tarifa actualizada exitosamente.</div>
   </div>
-  
-  <div *ngIf="registerError" class="alert alert-danger">
-    <i class="bi bi-exclamation-triangle-fill"></i> Error al registrar. Intente de nuevo.
+
+  <!-- ALERTA: Error al actualizar -->
+  <div *ngIf="updateError" class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <div>Error al actualizar la tarifa, por favor intente de nuevo.</div>
   </div>
-  
-  <button type="submit">Agregar Tarifa</button>
-</form>
+
+  <!-- Botón para mostrar el formulario -->
+  <div class="text-end mb-3">
+    <button class="btn btn-success" (click)="mostrarFormulario = !mostrarFormulario">
+      {{ mostrarFormulario ? 'Ocultar Formulario' : 'Agregar Nueva Tarifa' }}
+    </button>
+  </div>
+
+  <!-- Formulario para agregar nueva tarifa -->
+  <div *ngIf="mostrarFormulario" class="p-4 border rounded shadow-sm bg-light">
+    <h3 class="fw-bold">Registrar Nueva Tarifa</h3>
+
+    <input type="text" class="form-control" [(ngModel)]="nuevaTarifa.tipoVehiculo"
+      placeholder="Tipo de Vehículo" required pattern="[A-Za-z ]*"
+      oninput="this.value = this.value.replace(/[^A-Za-z ]/g, '')" />
+
+    <label>Precio por hora:</label>
+    <input type="number" [(ngModel)]="nuevaTarifa.precioHora" class="form-control" required />
+
+    <label>Precio medio día:</label>
+    <input type="number" [(ngModel)]="nuevaTarifa.precioMedioDia" class="form-control" required />
+
+    <label>Precio noche:</label>
+    <input type="number" [(ngModel)]="nuevaTarifa.precioNoche" class="form-control" required />
+
+    <label>Precio festivo:</label>
+    <input type="number" [(ngModel)]="nuevaTarifa.precioFestivo" class="form-control" required />
+
+    <label>Fecha:</label>
+    <input type="date" [(ngModel)]="nuevaTarifa.fecha" class="form-control" required />
+
+    <!-- ALERTA: Registro exitoso -->
+    <div *ngIf="registerSuccess" class="alert alert-success d-flex align-items-center mt-3" role="alert">
+      <i class="bi bi-check-circle-fill me-2"></i>
+      <div>Registro exitoso.</div>
+    </div>
+
+    <!-- ALERTA: Error al registrar -->
+    <div *ngIf="registerError" class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>Error al registrar, por favor intente de nuevo.</div>
+    </div>
+
+    <div *ngIf="validacionError" class="alert alert-danger d-flex align-items-center mt-3" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      <div>Por favor ingrese todos los datos.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100 mt-3" (click)="agregarTarifa()">Agregar Tarifa</button>
+  </div>
+
+  <!-- Alerta de éxito al eliminar -->
+  <div *ngIf="deleteSuccess" class="alert alert-success">
+    Tarifa eliminada exitosamente.
+  </div>
+
+  <!-- Alerta de error al eliminar -->
+  <div *ngIf="deleteError" class="alert alert-danger">
+    Ocurrió un error al eliminar la tarifa.
+  </div>
+
+  <!-- Tabla de Tarifas -->
+  <div class="mt-5">
+    <h3 class="fw-bold">Tarifas Registradas</h3>
+
+    <div *ngFor="let tipo of ['Carro', 'Moto', 'Bicicleta']">
+      <h4 class="fw-bold">{{ tipo }}</h4>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Nombre Tarifa</th>
+            <th>Precio</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tarifa of getTarifasPorTipo(tipo)">
+            <td>{{ tarifa.nombreTarifa }}</td>
+            <td>
+              <input type="number" [(ngModel)]="tarifa.precio" class="form-control" />
+            </td>
+            <td>{{ tarifa.fecha }}</td>
+            <td class="d-flex flex-column gap-2">
+              <button class="btn btn-success btn-sm" (click)="editarTarifa(tarifa)">Guardar</button>
+              <button class="btn btn-danger btn-sm" (click)="confirmarEliminacion(tarifa)">Eliminar</button>
+
+              <!-- Confirmación de eliminación específica para esta tarifa -->
+              <div *ngIf="confirmTarifa?.id === tarifa.id" class="alert alert-warning mt-2">
+                ¿Estás seguro de eliminar esta tarifa?
+                <div class="mt-2 d-flex gap-2">
+                  <button class="btn btn-danger btn-sm" (click)="eliminarTarifa()">Sí</button>
+                  <button class="btn btn-secondary btn-sm" (click)="cancelarEliminacion()">No</button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

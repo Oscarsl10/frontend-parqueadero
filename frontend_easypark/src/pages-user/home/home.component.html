@@ -1,3 +1,4 @@
+<app-header-user></app-header-user>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,30 +8,6 @@
 </head>
 <body>
     <div class="home">
-        <header class="navbar">
-            <div class="logo"> 🅿️ <strong><span class="easy">EASY</span> <span class="park">PARK</span></strong></div>
-            
-            <nav>
-                <a href="#">Inicio</a>
-                <a href="#">Características</a>
-                <a href="#">Planes</a>
-                <a href="#">Contacto</a>
-            </nav>
-
-            <div class="auth-buttons">
-                <!-- Si el usuario está autenticado -->
-                <div *ngIf="userEmail; else guestButtons">
-                    <span>Bienvenido, {{ userEmail }}</span>
-                    <button class="btn blue" (click)="goToProfile()">Mi Perfil</button>
-                </div>
-
-                <!-- Plantilla para usuarios no autenticados -->
-                <ng-template #guestButtons>
-                    <button class="btn yellow" routerLink="/login">Iniciar sesión</button>
-                    <button class="btn white" routerLink="/register">Registro</button>
-                </ng-template>
-            </div>
-        </header>
 
         <section class="hero">
             <div class="hero-content">

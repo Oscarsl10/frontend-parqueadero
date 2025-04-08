@@ -6,7 +6,7 @@ import { HeaderUserComponent } from '../header-user/header-user.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, HeaderUserComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -19,7 +19,7 @@ export class HomeComponent {
     this.userEmail = sessionStorage.getItem('userEmail'); // Obtiene el email almacenado en sesión
   }
 
-  goToProfile() {
+  /*goToProfile() {
     this.router.navigate(['/profile']); // Redirige al perfil
   }
 
@@ -29,6 +29,11 @@ export class HomeComponent {
 
   goToRegister() {
     this.router.navigate(['/register']); // Redirige a registrarse
-  }
+  }*/
+ 
+    logout() {
+      sessionStorage.clear(); // Limpia los datos almacenados
+      this.userEmail = null; // Resetea el estado del usuario
+    }
 }
 

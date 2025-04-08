@@ -13,8 +13,8 @@ import { RegisterAdminComponent } from '../pages-admin/register-admin/register-a
 import { FeeAdminComponent } from '../pages-admin/fee-admin/fee-admin.component';
 import { PayAdminComponent } from '../pages-admin/pay-admin/pay-admin.component';
 import { VehiculeAdminComponent } from '../pages-admin/vehicule-admin/vehicule-admin.component';
-
-
+import { FeeReadComponent } from '../pages-admin/fee-read/fee-read.component';
+import { FeeComponent } from '../pages-user/fee/fee.component';
 
 
 export const routes: Routes = [
@@ -34,5 +34,7 @@ export const routes: Routes = [
   { path: 'admin/fee', component: FeeAdminComponent},
   { path: 'admin/pay', component: PayAdminComponent},
   { path: 'admin/vehicule', component: VehiculeAdminComponent},
+  { path: 'admin/feeread', component: FeeReadComponent},
+  { path: 'fee', component: FeeComponent},
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

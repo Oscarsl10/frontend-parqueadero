@@ -10,10 +10,15 @@ import { Router, RouterLink, RouterModule } from '@angular/router';
 })
 export class HeaderAdminComponent {
   adminEmail: string | null = null;
+  menuOpen = false;
   
   constructor(private router: Router) {}
 
   ngOnInit() {
     this.adminEmail = sessionStorage.getItem('adminEmail'); // Obtiene el email almacenado en sesión
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 }

@@ -1,0 +1,26 @@
+<app-header-user></app-header-user>
+
+<div class="fee">
+<div class="container mt-4">
+  <h2 class="text-center mb-4 fw-bold">Tarifas</h2>
+
+  <div *ngFor="let tipo of ['Carro', 'Moto', 'Bicicleta']">
+    <h4 class="fw-bold">{{ tipo }}</h4>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nombre Tarifa</th>
+          <th>Precio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tarifa of getTarifasPorTipo(tipo)">
+          <td>{{ tarifa.nombreTarifa }}</td>
+          <td>{{ tarifa.precio | currency: 'COP ' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+

@@ -34,11 +34,11 @@
       <label class="form-label">Tarifa:</label>
       <select class="form-select" [(ngModel)]="vehiculo.idTarifa" name="idTarifa" required>
         <option *ngFor="let tarifa of tarifasFiltradas" [value]="tarifa.id">
-          {{ tarifa.precio }} COP ({{ tarifa.fecha }})
+          {{ tarifa.tipoVehiculo }} - {{ tarifa.nombreTarifa }}: {{ tarifa.precio }} COP ({{ tarifa.fecha }})
         </option>
       </select>
     </div>
-
+    
     <button type="submit" class="btn btn-primary w-100">Registrar Vehículo</button>
   </form>
 </div>

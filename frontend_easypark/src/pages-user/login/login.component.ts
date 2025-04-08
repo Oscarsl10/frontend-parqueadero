@@ -38,7 +38,6 @@ export class LoginComponent {
   
         if (response === true) {
           sessionStorage.setItem('userEmail', this.data.get('userId')?.value || '');
-        
           setTimeout(() => {
             this.router.navigate(['/home']);
           }, 1000);

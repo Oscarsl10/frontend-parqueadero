@@ -1,25 +1,31 @@
 <header class="navbar">
-    <div class="logo"> 🅿️ <strong><span class="easy">EASY</span> <span class="park">PARK</span></strong></div>
-
-    <nav class="nav-buttons">
-        <a class="nav-link" [routerLink]="'/admin/home'">Inicio</a>
-        <a class="nav-link" [routerLink]="'/admin/dashboard'">Gestión</a>
-        <a class="nav-link" [routerLink]="'/admin/plans'">Planes</a>
-        <a class="nav-link" [routerLink]="'/admin/vehicule'">Registrar Vehículos</a>
-        <a class="nav-link" [routerLink]="'/admin/fee'">Tarifa</a>
-
-    </nav>
-
-    <div class="auth-buttons">
-        <div *ngIf="adminEmail; else guestButtons">
-            <span style="color: white;">Bienvenido, {{ adminEmail }}</span>
-            <a class="btn blue" [routerLink]="'/admin/profile'">Mi Perfil</a>
-            <a class="btn blue" [routerLink]="'/admin/register'">Registrar Administrador</a>
-        </div>
-
-        <ng-template #guestButtons>
-            <button class="btn yellow" routerLink="/admin/login">Iniciar sesión</button>
-        </ng-template>
+    <div class="logo">
+      🅿️ <strong><span class="easy">EASY</span> <span class="park">PARK</span></strong>
     </div>
-</header>
-
+  
+    <nav class="nav-buttons">
+      <div class="menu-container">
+        <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+        <div class="nav-links" [class.active]="menuOpen">
+          <a class="nav-link" [routerLink]="'/admin/home'">Inicio</a>
+          <a class="nav-link" [routerLink]="'/admin/dashboard'">Gestión</a>
+          <a class="nav-link" [routerLink]="'/admin/plans'">Planes</a>
+          <a class="nav-link" [routerLink]="'/admin/vehicule'">Registrar Vehículos</a>
+          <a class="nav-link" [routerLink]="'/admin/feeread'">Tarifas</a>
+        </div>
+      </div>
+    </nav>
+  
+    <div class="auth-buttons">
+      <div *ngIf="adminEmail; else guestButtons">
+        <span class="welcome-text">Bienvenido, {{ adminEmail }}</span>
+        <a class="btn blue" [routerLink]="'/admin/profile'">Mi perfil</a>
+        <a class="btn blue" [routerLink]="'/admin/register'">Registrar Admin</a>
+      </div>
+  
+      <ng-template #guestButtons>
+        <button class="btn yellow" routerLink="/admin/login">Iniciar sesión</button>
+      </ng-template>
+    </div>
+  </header>
+  

@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header-user',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './header-user.component.html',
   styleUrl: './header-user.component.css'
 })
 export class HeaderUserComponent {
   userEmail: string | null = null;
+  menuOpen = false;
   
   constructor(private router: Router) {}
 
@@ -19,5 +20,17 @@ export class HeaderUserComponent {
 
   goToProfile() {
     this.router.navigate(['/profile']); // Redirige al perfil
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']); // Redirige a iniciar sesión
+  }
+
+  goToRegister() {
+    this.router.navigate(['/register']); // Redirige a registrarse
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
   }
 }
