@@ -1,72 +1,48 @@
-<div class="container">
-    <h2>Registro de Pagos</h2>
-  
-    <!-- Formulario para registrar pagos -->
-    <form (submit)="addPago(); $event.preventDefault()">
-      <div>
-        <label for="vehiculo">Placa del Vehículo:</label>
-        <input type="text" id="vehiculo" [(ngModel)]="newPago.vehiculo.placa" name="vehiculo" required />
-      </div>
-  
-      <div>
-        <label for="tipoVehiculo">Tipo de Vehículo:</label>
-        <select id="tipoVehiculo" [(ngModel)]="newPago.vehiculo.tipoVehiculo" name="tipoVehiculo" required (change)="updateTarifa()">
-          <option value="">Seleccione</option>
-          <option value="Carro">Carro</option>
-          <option value="Moto">Moto</option>
-          <option value="Bicicleta">Bicicleta</option>
-        </select>
-      </div>
-  
-      <div>
-        <label for="entrada">Hora de Entrada:</label>
-        <input type="datetime-local" id="entrada" [(ngModel)]="newPago.entrada" name="entrada" required />
-      </div>
-  
-      <div>
-        <label for="salida">Hora de Salida:</label>
-        <input type="datetime-local" id="salida" [(ngModel)]="newPago.salida" name="salida" required (change)="calcularPago()" />
-      </div>
-  
-      <div>
-        <label for="tarifa">Tarifa Aplicada:</label>
-        <input type="number" id="tarifa" [(ngModel)]="newPago.tarifa.precio" name="tarifa" readonly />
-      </div>
-  
-      <div>
-        <label for="valorPagar">Valor a Pagar:</label>
-        <input type="number" id="valorPagar" [(ngModel)]="newPago.valorPagar" name="valorPagar" readonly />
-      </div>
-  
-      <button type="submit">Registrar Pago</button>
-    </form>
-  
-    <!-- Tabla de pagos registrados -->
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Placa</th>
-          <th>Tipo Vehículo</th>
-          <th>Entrada</th>
-          <th>Salida</th>
-          <th>Valor Pagado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let pago of pagos">
-          <td>{{ pago.id }}</td>
-          <td>{{ pago.vehiculo.placa }}</td>
-          <td>{{ pago.vehiculo.tipoVehiculo }}</td>
-          <td>{{ pago.entrada }}</td>
-          <td>{{ pago.salida }}</td>
-          <td>${{ pago.valorPagar }}</td>
-          <td>
-            <button (click)="deletePago(pago.id)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+<app-header-admin></app-header-admin>
+
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Registrar Pago</h2>
+
+  <!-- Alertas -->
+  <div *ngIf="registerSuccess" class="alert alert-success">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    Pago registrado exitosamente.
   </div>
-  
+
+  <div *ngIf="registerError" class="alert alert-danger">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    Error al registrar el pago.
+  </div>
+
+  <!-- Formulario -->
+  <form (ngSubmit)="registrarPago()" class="p-4 border rounded shadow-sm bg-light">
+
+    <!-- Placa -->
+    <div class="mb-3">
+      <label for="placa" class="form-label">Placa del vehículo:</label>
+      <input type="text" id="placa" class="form-control" [(ngModel)]="placa" name="placa" required />
+      <button class="btn btn-secondary mt-2" type="button" (click)="buscarVehiculo()">Buscar</button>
+    </div>
+
+    <!-- Datos del vehículo -->
+    <div *ngIf="vehiculoEncontrado">
+      <p><strong>Tipo de Vehículo:</strong> {{ tipoVehiculo }}</p>
+      <p><strong>Hora de Entrada:</strong> {{ entrada | date:'yyyy-MM-dd HH:mm' }}</p>
+      <p><strong>Tarifa:</strong> {{ tarifa?.nombreTarifa }} - {{ tarifa?.precio | currency:'COP' }}</p>
+
+
+      <!-- Hora de salida -->
+
+      <div class="mb-3">
+        <label for="salida" class="form-label">Hora de Salida:</label>
+        <input type="datetime-local" id="salida" class="form-control" [(ngModel)]="salida" name="salida" required />
+      </div>
+
+
+      <!-- Valor a pagar -->
+      <p><strong>Valor a Pagar:</strong> {{ valorAPagar | currency:'COP' }}</p>
+
+      <button type="submit" class="btn btn-primary w-100">Registrar Pago</button>
+    </div>
+  </form>
+</div>

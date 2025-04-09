@@ -12,68 +12,94 @@ import { HeaderAdminComponent } from "../header-admin/header-admin.component";
   styleUrls: ['./vehicule-admin.component.css']
 })
 export class VehiculeAdminComponent implements OnInit {
-  vehiculo: any = {  // Asegura que esté inicializado
+  vehiculo = {
     placa: '',
-    tipoVehiculo: '',
-    idTarifa: null
+    tipoVehiculoId: null,
+    idTarifa: null,
+    entrada: ''
   };
-
-  registerSuccess: boolean = false;
-  registerError: boolean = false;
 
   tarifas: any[] = [];
   tarifasFiltradas: any[] = [];
+  tiposVehiculo: any[] = [];
 
-  private apiTarifas = 'http://localhost:8082/api/tarifa';
-  private apiVehiculos = 'http://localhost:8082/api/registroVehiculo';
+  registerSuccess = false;
+  registerError = false;
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.obtenerTarifas();
   }
 
   obtenerTarifas() {
-    this.http.get<any[]>(this.apiTarifas).subscribe(
-      (response) => {
-        this.tarifas = response;
+    this.http.get<any[]>('http://localhost:8082/api/tarifa').subscribe(
+      data => {
+        this.tarifas = data;
+
+        const tiposUnicos = new Map();
+        data.forEach(t => tiposUnicos.set(t.tipo_vehiculo.id, t.tipo_vehiculo));
+        this.tiposVehiculo = Array.from(tiposUnicos.values());
       },
-      (error) => {
-        console.error('Error al obtener tarifas:', error);
+      error => {
+        console.error('Error al cargar tarifas:', error);
       }
     );
   }
 
-  filtrarTarifas() {
-    this.tarifasFiltradas = this.tarifas.filter(t => t.tipoVehiculo === this.vehiculo.tipoVehiculo);
-    this.vehiculo.idTarifa = null; // Reinicia la selección de tarifa
-  }
+  filtrarTarifasPorVehiculo() {
+    const tipoId = parseInt(this.vehiculo.tipoVehiculoId);
 
-  agregarVehiculo() {
-    if (!this.vehiculo.placa || !this.vehiculo.tipoVehiculo || !this.vehiculo.idTarifa) {
-      alert('Todos los campos son obligatorios');
+    if (!tipoId) {
+      this.tarifasFiltradas = [];
       return;
     }
 
-    const vehiculoData = {
+    this.tarifasFiltradas = this.tarifas.filter(t => t.tipo_vehiculo?.id === tipoId);
+  }
+
+  obtenerNombreTipoVehiculo(id: number): string {
+    const tipo = this.tiposVehiculo.find(t => t.id === id);
+    return tipo ? tipo.tipo_vehiculo : '';
+  }
+
+  agregarVehiculo() {
+    if (!this.vehiculo.placa || !this.vehiculo.tipoVehiculoId || !this.vehiculo.idTarifa || !this.vehiculo.entrada) {
+      this.registerError = true;
+      setTimeout(() => this.registerError = false, 3000);
+      return;
+    }
+
+    const datos = {
       placa: this.vehiculo.placa,
-      tipoVehiculo: this.vehiculo.tipoVehiculo,
-      tarifa: { id: this.vehiculo.idTarifa }
+      tipoVehiculo: this.obtenerNombreTipoVehiculo(parseInt(this.vehiculo.tipoVehiculoId)),
+      tarifa: { id: parseInt(this.vehiculo.idTarifa) },
+      entrada: this.vehiculo.entrada  // Fecha y hora en formato ISO
     };
 
-    this.http.post(this.apiVehiculos, vehiculoData).subscribe(
-      (response) => {
-        console.log('Vehículo registrado con éxito', response);
+    this.http.post('http://localhost:8082/api/registroVehiculo', datos).subscribe(
+      () => {
         this.registerSuccess = true;
         this.registerError = false;
+        this.resetFormulario();
         setTimeout(() => this.registerSuccess = false, 3000);
       },
-      (error) => {
-        console.error('Error al registrar vehículo:', error);
-        this.registerSuccess = false;
+      () => {
         this.registerError = true;
+        this.registerSuccess = false;
         setTimeout(() => this.registerError = false, 3000);
       }
     );
+  }
+
+  resetFormulario() {
+    this.vehiculo = {
+      placa: '',
+      tipoVehiculoId: '',
+      idTarifa: '',
+      entrada: ''
+    };
+    this.tarifasFiltradas = [];
+ 
   }
 }

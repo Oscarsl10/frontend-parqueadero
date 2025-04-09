@@ -1,26 +1,24 @@
 <app-header-user></app-header-user>
 
 <div class="fee">
-<div class="container mt-4">
-  <h2 class="text-center mb-4 fw-bold">Tarifas</h2>
-
-  <div *ngFor="let tipo of ['Carro', 'Moto', 'Bicicleta']">
-    <h4 class="fw-bold">{{ tipo }}</h4>
-    <table class="table table-bordered">
+  <div class="container mt-4">
+    <h2 class="text-center mb-4 fw-bold">Tarifas Registradas</h2>
+    
+    <table>
       <thead>
         <tr>
+          <th>Tipo de Vehículo</th> 
           <th>Nombre Tarifa</th>
           <th>Precio</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let tarifa of getTarifasPorTipo(tipo)">
+        <tr *ngFor="let tarifa of tarifas">
+          <td>{{ tarifa.tipo_vehiculo?.tipo_vehiculo }}</td>
           <td>{{ tarifa.nombreTarifa }}</td>
-          <td>{{ tarifa.precio | currency: 'COP ' }}</td>
+          <td>{{ tarifa.precio | currency:'COP':'symbol':'1.0-0' }}</td>
         </tr>
       </tbody>
-    </table>
+    </table>    
   </div>
 </div>
-</div>
-

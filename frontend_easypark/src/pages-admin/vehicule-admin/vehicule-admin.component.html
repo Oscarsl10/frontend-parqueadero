@@ -3,7 +3,7 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Registrar Vehículo</h2>
 
-  <!-- Alertas de éxito y error -->
+  <!-- Alertas -->
   <div *ngIf="registerSuccess" class="alert alert-success d-flex align-items-center" role="alert">
     <i class="bi bi-check-circle-fill me-2"></i>
     <div>Vehículo registrado con éxito.</div>
@@ -14,31 +14,48 @@
     <div>Error al registrar, por favor intente de nuevo.</div>
   </div>
 
+  <!-- Formulario -->
   <form (ngSubmit)="agregarVehiculo()" class="p-4 border rounded shadow-sm bg-light">
+
+    <!-- Placa -->
     <div class="mb-3">
-      <label class="form-label">Placa:</label>
-      <input type="text" class="form-control" [(ngModel)]="vehiculo.placa" name="placa" required />
+      <label for="placa" class="form-label">Placa:</label>
+      <input type="text" id="placa" class="form-control" [(ngModel)]="vehiculo.placa" name="placa" required />
     </div>
 
+    <!-- Tipo de Vehículo -->
     <div class="mb-3">
-      <label class="form-label">Tipo de vehículo:</label>
-      <select class="form-select" [(ngModel)]="vehiculo.tipoVehiculo" name="tipoVehiculo" (change)="filtrarTarifas()" required>
-        <option value="" disabled selected>Selecciona un tipo</option>
-        <option value="Carro">Carro</option>
-        <option value="Moto">Moto</option>
-        <option value="Bicicleta">Bicicleta</option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label class="form-label">Tarifa:</label>
-      <select class="form-select" [(ngModel)]="vehiculo.idTarifa" name="idTarifa" required>
-        <option *ngFor="let tarifa of tarifasFiltradas" [value]="tarifa.id">
-          {{ tarifa.tipoVehiculo }} - {{ tarifa.nombreTarifa }}: {{ tarifa.precio }} COP ({{ tarifa.fecha }})
+      <label for="tipoVehiculo" class="form-label">Tipo de Vehículo:</label>
+      <select id="tipoVehiculo" class="form-select" [(ngModel)]="vehiculo.tipoVehiculoId" name="tipoVehiculoId"
+        (change)="filtrarTarifasPorVehiculo()" required>
+        <option value="">Seleccione un tipo</option>
+        <option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">
+          {{ tipo.tipo_vehiculo }}
         </option>
       </select>
     </div>
-    
-    <button type="submit" class="btn btn-primary w-100">Registrar Vehículo</button>
+
+    <!-- Tarifa -->
+    <div class="mb-3">
+      <label for="nombreTarifa" class="form-label">Nombre de Tarifa:</label>
+      <select id="nombreTarifa" class="form-select" [(ngModel)]="vehiculo.idTarifa" name="idTarifa" required>
+        <option value="">Seleccione una tarifa</option>
+        <option *ngFor="let tarifa of tarifasFiltradas" [value]="tarifa.id">
+          {{ tarifa.nombreTarifa }} - {{ tarifa.precio | currency:'COP':'symbol' }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="entrada" class="form-label">Fecha y Hora de Entrada:</label>
+      <input type="datetime-local" id="entrada" class="form-control" [(ngModel)]="vehiculo.entrada" name="entrada"
+        required />
+    </div>
+
+
+    <!-- Botón -->
+    <button type="submit" class="btn btn-primary w-100">
+      Registrar Vehículo
+    </button>
   </form>
 </div>

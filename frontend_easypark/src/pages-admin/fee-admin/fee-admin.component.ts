@@ -14,150 +14,163 @@ import { FeeReadComponent } from "../fee-read/fee-read.component";
   styleUrls: ['./fee-admin.component.css'] // ← aquí estaba mal escrito como `styleUrl`
 })
 export class FeeAdminComponent implements OnInit {
-
   nuevaTarifa = {
-    tipoVehiculo: '',
-    precioHora: null,
-    precioMedioDia: null,
-    precioNoche: null,
-    precioFestivo: null,
+    tipoVehiculoId: '',
+    nombreTarifa: '',
+    precio: null,
     fecha: ''
   };
 
+  // NUEVO TIPO VEHÍCULO
+  nuevoTipoVehiculo = {
+    nombre: ''
+  };
+
   tarifas: any[] = [];
+  tiposVehiculo: any[] = [];
+
+  // ALERTAS
   registerSuccess = false;
   registerError = false;
   updateSuccess = false;
   updateError = false;
   deleteSuccess = false;
   deleteError = false;
-  confirmTarifa: any = null;
   validacionError = false;
-  mostrarFormulario: boolean = false;
+  confirmTarifa: any = null;
+  mostrarFormulario = false;
+  mostrarFormularioTipoVehiculo = false;
+  tipoVehiculoSuccess = false;
+  tipoVehiculoError = false;
+  tipoVehiculoDuplicado = false;
 
-  private apiUrl = 'http://localhost:8082/api/tarifa';
+  private tarifaUrl = 'http://localhost:8082/api/tarifa';
+  private vehiculoUrl = 'http://localhost:8082/api/tipo_vehiculo';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.cargarTarifas();
+    this.cargarTiposVehiculo();
   }
 
   cargarTarifas() {
-    this.http.get<any[]>(this.apiUrl).subscribe(
-      (data) => {
-        this.tarifas = data;
-      },
-      (error) => {
-        console.error('Error cargando tarifas:', error);
-      }
+    this.http.get<any[]>(this.tarifaUrl).subscribe(
+      data => this.tarifas = data,
+      error => console.error('Error cargando tarifas:', error)
     );
   }
 
-  getTarifasPorTipo(tipo: string) {
-    return this.tarifas.filter(tarifa => tarifa.tipoVehiculo === tipo);
+  cargarTiposVehiculo() {
+    this.http.get<any[]>(this.vehiculoUrl).subscribe(data => {
+      this.tiposVehiculo = data;
+    });
   }
+  
 
+  // REGISTRO DE NUEVA TARIFA
   agregarTarifa() {
-    if (!this.nuevaTarifa.tipoVehiculo || !this.nuevaTarifa.fecha) {
+    const { tipoVehiculoId, nombreTarifa, precio, fecha } = this.nuevaTarifa;
+  
+    if (!tipoVehiculoId || !nombreTarifa || !precio || !fecha) {
       this.validacionError = true;
-      setTimeout(() => (this.validacionError = false), 3000);
+      setTimeout(() => this.validacionError = false, 3000);
       return;
     }
+  
+    const tipoSeleccionado = this.tiposVehiculo.find(v => v.id === parseInt(tipoVehiculoId));
+    const fechaFormateada = new Date(fecha).toISOString().split('T')[0];
+  
+    const tarifa = {
+      tipo_vehiculo: { id: tipoVehiculoId },
+      nombreTarifa,
+      precio,
+      fecha: fechaFormateada
+    };
+    
 
-    const fechaFormateada = new Date(this.nuevaTarifa.fecha).toISOString().split('T')[0];
-
-    const tarifas = [];
-
-    if (this.nuevaTarifa.precioHora > 0) {
-      tarifas.push({ tipoVehiculo: this.nuevaTarifa.tipoVehiculo, nombreTarifa: 'Normal', precio: this.nuevaTarifa.precioHora, fecha: fechaFormateada });
-    }
-    if (this.nuevaTarifa.precioMedioDia > 0) {
-      tarifas.push({ tipoVehiculo: this.nuevaTarifa.tipoVehiculo, nombreTarifa: 'Medio Día', precio: this.nuevaTarifa.precioMedioDia, fecha: fechaFormateada });
-    }
-    if (this.nuevaTarifa.precioNoche > 0) {
-      tarifas.push({ tipoVehiculo: this.nuevaTarifa.tipoVehiculo, nombreTarifa: 'Noche', precio: this.nuevaTarifa.precioNoche, fecha: fechaFormateada });
-    }
-    if (this.nuevaTarifa.precioFestivo > 0) {
-      tarifas.push({ tipoVehiculo: this.nuevaTarifa.tipoVehiculo, nombreTarifa: 'Festivo', precio: this.nuevaTarifa.precioFestivo, fecha: fechaFormateada });
-    }
-
-    if (tarifas.length === 0) {
-      this.validacionError = true;
-      setTimeout(() => (this.validacionError = false), 3000);
-      return;
-    }
-
-    const yaExiste = tarifas.some(nueva =>
-      this.tarifas.some(actual =>
-        actual.tipoVehiculo === nueva.tipoVehiculo &&
-        actual.nombreTarifa === nueva.nombreTarifa &&
-        actual.fecha === nueva.fecha
-      )
-    );
-
-    if (yaExiste) {
-      this.registerError = true;
-      setTimeout(() => (this.registerError = false), 3000);
-      return;
-    }
-
-    let requests = tarifas.map(tarifa =>
-      this.http.post(this.apiUrl, tarifa).toPromise()
-    );
-
-    Promise.all(requests)
-      .then(() => {
+    this.http.post(this.tarifaUrl, tarifa).subscribe(
+      () => {
         this.registerSuccess = true;
         this.registerError = false;
         this.cargarTarifas();
         this.nuevaTarifa = {
-          tipoVehiculo: '',
-          precioHora: null,
-          precioMedioDia: null,
-          precioNoche: null,
-          precioFestivo: null,
+          tipoVehiculoId: '',
+          nombreTarifa: '',
+          precio: null,
           fecha: ''
         };
-        setTimeout(() => (this.registerSuccess = false), 3000);
-      })
-      .catch(() => {
+        setTimeout(() => this.registerSuccess = false, 3000);
+      },
+      () => {
         this.registerSuccess = false;
         this.registerError = true;
-        setTimeout(() => (this.registerError = false), 3000);
-      });
+        setTimeout(() => this.registerError = false, 3000);
+      }
+    );
   }
+
+  // REGISTRO DE NUEVO TIPO DE VEHÍCULO
+  agregarTipoVehiculo() {
+    const nombreNuevo = this.nuevoTipoVehiculo.nombre.trim().toLowerCase();
   
+    const existe = this.tiposVehiculo.some(tv => tv.tipo_vehiculo.trim().toLowerCase() === nombreNuevo);
   
-  editarTarifa(tarifa: any) {
-    // Verifica que los datos sean válidos antes de proceder con la actualización
-    if (!tarifa.precio || tarifa.precio <= 0) {
-      this.updateError = true;
-      setTimeout(() => (this.updateError = false), 3000);
+    if (existe) {
+      this.tipoVehiculoDuplicado = true;
+      this.tipoVehiculoError = false;
+      this.tipoVehiculoSuccess = false;
+      setTimeout(() => this.tipoVehiculoDuplicado = false, 3000);
       return;
     }
   
-    const tarifaActualizada = {
-      ...tarifa,
-      precio: tarifa.precio, // El precio actualizado
+    const nuevo = {
+      tipo_vehiculo: this.nuevoTipoVehiculo.nombre.trim()
     };
   
-    // Enviar solicitud PUT al backend
-    this.http.put(`${this.apiUrl}/${tarifa.id}`, tarifaActualizada).subscribe(
+    this.http.post(this.vehiculoUrl, nuevo).subscribe(
       () => {
-        this.updateSuccess = true;
-        this.updateError = false;
-        this.cargarTarifas(); // Recargar las tarifas después de actualizar
-        setTimeout(() => (this.updateSuccess = false), 3000);
+        this.tipoVehiculoSuccess = true;
+        this.tipoVehiculoError = false;
+        this.tipoVehiculoDuplicado = false;
+        this.nuevoTipoVehiculo.nombre = '';
+        this.cargarTiposVehiculo();
+        setTimeout(() => this.tipoVehiculoSuccess = false, 3000);
       },
       () => {
-        this.updateSuccess = false;
-        this.updateError = true;
-        setTimeout(() => (this.updateError = false), 3000);
+        this.tipoVehiculoSuccess = false;
+        this.tipoVehiculoError = true;
+        this.tipoVehiculoDuplicado = false;
+        setTimeout(() => this.tipoVehiculoError = false, 3000);
       }
     );
   }
   
+  
+  getTarifasPorTipo(tipoVehiculo: string) {
+    return this.tarifas.filter(t => t.tipo_vehiculo?.tipo_vehiculo === tipoVehiculo);
+  }
+  
+
+  editarTarifa(tarifa: any) {
+    if (!tarifa.precio || tarifa.precio <= 0) {
+      this.updateError = true;
+      setTimeout(() => this.updateError = false, 3000);
+      return;
+    }
+
+    this.http.put(`${this.tarifaUrl}/${tarifa.id}`, tarifa).subscribe(
+      () => {
+        this.updateSuccess = true;
+        this.cargarTarifas();
+        setTimeout(() => this.updateSuccess = false, 3000);
+      },
+      () => {
+        this.updateError = true;
+        setTimeout(() => this.updateError = false, 3000);
+      }
+    );
+  }
 
   confirmarEliminacion(tarifa: any) {
     this.confirmTarifa = tarifa;
@@ -169,20 +182,21 @@ export class FeeAdminComponent implements OnInit {
 
   eliminarTarifa() {
     if (!this.confirmTarifa) return;
-
-    const id = this.confirmTarifa.id;
-    this.http.delete(`${this.apiUrl}/${id}`).subscribe(
+  
+    console.log('Eliminando tarifa con ID:', this.confirmTarifa.id); // 👈 VERIFICACIÓN
+  
+    this.http.delete(`${this.tarifaUrl}/${this.confirmTarifa.id}`).subscribe(
       () => {
         this.deleteSuccess = true;
-        this.confirmTarifa = null;
         this.cargarTarifas();
-        setTimeout(() => (this.deleteSuccess = false), 3000);
+        this.confirmTarifa = null;
+        setTimeout(() => this.deleteSuccess = false, 3000);
       },
-      () => {
+      (error) => {
+        console.error('Error al eliminar tarifa:', error); // 👈 VERIFICA SI HAY ERROR
         this.deleteError = true;
-        setTimeout(() => (this.deleteError = false), 3000);
+        setTimeout(() => this.deleteError = false, 3000);
       }
     );
-  }
-
+  }  
 }

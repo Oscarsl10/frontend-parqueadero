@@ -23,14 +23,24 @@ ngOnInit() {
 cargarTarifas() {
   this.http.get<any[]>(this.apiUrl).subscribe(
     (data) => {
-      console.log('Datos recibidos desde la API:', data);  // Verifica qué datos estás recibiendo
-      this.tarifas = data;
+      console.log('Datos recibidos desde la API:', data);
+
+      // Ordena alfabéticamente por tipo de vehículo
+      this.tarifas = data.sort((a, b) => {
+        const tipoA = a.tipoVehiculo?.tipo_vehiculo?.toLowerCase() || '';
+        const tipoB = b.tipoVehiculo?.tipo_vehiculo?.toLowerCase() || '';
+        return tipoA.localeCompare(tipoB);
+      });
+
+      // Si estás usando ChangeDetectorRef para actualizar manualmente
+      this.cdRef.detectChanges();
     },
     (error) => {
       console.error('Error cargando tarifas:', error);
     }
   );
 }
+
 
 getTarifasPorTipo(tipo: string) {
   return this.tarifas.filter(tarifa => tarifa.tipoVehiculo === tipo);
