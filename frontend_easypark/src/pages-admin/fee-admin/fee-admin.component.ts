@@ -16,18 +16,24 @@ import { FeeReadComponent } from "../fee-read/fee-read.component";
 export class FeeAdminComponent implements OnInit {
   nuevaTarifa = {
     tipoVehiculoId: '',
-    nombreTarifa: '',
-    precio: null,
-    fecha: ''
-  };
+    tipoTarifaId: '',
+    precio: null
+  }; 
 
   // NUEVO TIPO VEHÍCULO
   nuevoTipoVehiculo = {
     nombre: ''
   };
 
+  // NUEVO TIPO TARIFA
+  nuevoTipoTarifa = { nombre: '' };
+
+
+
+  // LISTAS
   tarifas: any[] = [];
   tiposVehiculo: any[] = [];
+  tiposTarifa: any[] = [];
 
   // ALERTAS
   registerSuccess = false;
@@ -38,20 +44,33 @@ export class FeeAdminComponent implements OnInit {
   deleteError = false;
   validacionError = false;
   confirmTarifa: any = null;
+
+  // CONTROL DE FORMULARIOS
   mostrarFormulario = false;
   mostrarFormularioTipoVehiculo = false;
+  mostrarFormularioTipoTarifa = false; // ← ESTA ES LA NUEVA PROPIEDAD
+
+  // ESTADOS PARA TIPO VEHÍCULO
   tipoVehiculoSuccess = false;
   tipoVehiculoError = false;
   tipoVehiculoDuplicado = false;
 
+  // ESTADOS PARA TIPO TARIFA
+  tipoTarifaSuccess = false;
+  tipoTarifaError = false;
+  tipoTarifaDuplicado = false;
+
+  // URLs de API
   private tarifaUrl = 'http://localhost:8082/api/tarifa';
   private vehiculoUrl = 'http://localhost:8082/api/tipo_vehiculo';
+  private tipoTarifaUrl = 'http://localhost:8082/api/tipo_tarifa';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.cargarTarifas();
     this.cargarTiposVehiculo();
+    this.cargarTiposTarifa();
   }
 
   cargarTarifas() {
@@ -66,29 +85,29 @@ export class FeeAdminComponent implements OnInit {
       this.tiposVehiculo = data;
     });
   }
-  
+
+  cargarTiposTarifa() {
+    this.http.get<any[]>(this.tipoTarifaUrl).subscribe(data => {
+      this.tiposTarifa = data;
+    });
+  }
 
   // REGISTRO DE NUEVA TARIFA
   agregarTarifa() {
-    const { tipoVehiculoId, nombreTarifa, precio, fecha } = this.nuevaTarifa;
+    const { tipoVehiculoId, tipoTarifaId, precio } = this.nuevaTarifa;
   
-    if (!tipoVehiculoId || !nombreTarifa || !precio || !fecha) {
+    if (!tipoVehiculoId || !tipoTarifaId || !precio) {
       this.validacionError = true;
       setTimeout(() => this.validacionError = false, 3000);
       return;
     }
   
-    const tipoSeleccionado = this.tiposVehiculo.find(v => v.id === parseInt(tipoVehiculoId));
-    const fechaFormateada = new Date(fecha).toISOString().split('T')[0];
-  
     const tarifa = {
       tipo_vehiculo: { id: tipoVehiculoId },
-      nombreTarifa,
-      precio,
-      fecha: fechaFormateada
+      tipo_tarifa: { id: tipoTarifaId },
+      precio
     };
-    
-
+  
     this.http.post(this.tarifaUrl, tarifa).subscribe(
       () => {
         this.registerSuccess = true;
@@ -96,9 +115,8 @@ export class FeeAdminComponent implements OnInit {
         this.cargarTarifas();
         this.nuevaTarifa = {
           tipoVehiculoId: '',
-          nombreTarifa: '',
-          precio: null,
-          fecha: ''
+          tipoTarifaId: '',
+          precio: null
         };
         setTimeout(() => this.registerSuccess = false, 3000);
       },
@@ -109,13 +127,15 @@ export class FeeAdminComponent implements OnInit {
       }
     );
   }
+  
+  
 
   // REGISTRO DE NUEVO TIPO DE VEHÍCULO
   agregarTipoVehiculo() {
     const nombreNuevo = this.nuevoTipoVehiculo.nombre.trim().toLowerCase();
-  
+
     const existe = this.tiposVehiculo.some(tv => tv.tipo_vehiculo.trim().toLowerCase() === nombreNuevo);
-  
+
     if (existe) {
       this.tipoVehiculoDuplicado = true;
       this.tipoVehiculoError = false;
@@ -123,11 +143,11 @@ export class FeeAdminComponent implements OnInit {
       setTimeout(() => this.tipoVehiculoDuplicado = false, 3000);
       return;
     }
-  
+
     const nuevo = {
       tipo_vehiculo: this.nuevoTipoVehiculo.nombre.trim()
     };
-  
+
     this.http.post(this.vehiculoUrl, nuevo).subscribe(
       () => {
         this.tipoVehiculoSuccess = true;
@@ -145,13 +165,56 @@ export class FeeAdminComponent implements OnInit {
       }
     );
   }
+
+  // REGISTRO DE NUEVO TIPO DE TARIFA
+  registrarTipoTarifa() {
+    const nuevoNombre = this.nuevoTipoTarifa.nombre?.trim().toLowerCase();
   
+    const existe = this.tiposTarifa.some(tt => tt.tipo_tarifa.trim().toLowerCase() === nuevoNombre);
   
-  getTarifasPorTipo(tipoVehiculo: string) {
-    return this.tarifas.filter(t => t.tipo_vehiculo?.tipo_vehiculo === tipoVehiculo);
+    if (!nuevoNombre) {
+      this.tipoTarifaError = true;
+      this.tipoTarifaSuccess = false;
+      this.tipoTarifaDuplicado = false;
+      setTimeout(() => this.tipoTarifaError = false, 3000);
+      return;
+    }
+  
+    if (existe) {
+      this.tipoTarifaDuplicado = true;
+      this.tipoTarifaSuccess = false;
+      this.tipoTarifaError = false;
+      setTimeout(() => this.tipoTarifaDuplicado = false, 3000);
+      return;
+    }
+  
+    const nuevoTipo = { tipo_tarifa: this.nuevoTipoTarifa.nombre.trim() };
+  
+    this.http.post(this.tipoTarifaUrl, nuevoTipo).subscribe(
+      () => {
+        this.tipoTarifaSuccess = true;
+        this.tipoTarifaError = false;
+        this.tipoTarifaDuplicado = false;
+        this.nuevoTipoTarifa = { nombre: '' }; // importante
+        this.cargarTiposTarifa();
+        setTimeout(() => this.tipoTarifaSuccess = false, 3000);
+      },
+      () => {
+        this.tipoTarifaSuccess = false;
+        this.tipoTarifaError = true;
+        this.tipoTarifaDuplicado = false;
+        setTimeout(() => this.tipoTarifaError = false, 3000);
+      }
+    );
   }
   
 
+  // FILTRAR TARIFAS POR TIPO
+  getTarifasPorTipo(tipoVehiculo: string) {
+    return this.tarifas.filter(t => t.tipo_vehiculo?.tipo_vehiculo === tipoVehiculo);
+  }
+
+  // EDITAR TARIFA
   editarTarifa(tarifa: any) {
     if (!tarifa.precio || tarifa.precio <= 0) {
       this.updateError = true;
@@ -172,6 +235,7 @@ export class FeeAdminComponent implements OnInit {
     );
   }
 
+  // CONFIRMAR / CANCELAR / ELIMINAR
   confirmarEliminacion(tarifa: any) {
     this.confirmTarifa = tarifa;
   }
@@ -182,9 +246,7 @@ export class FeeAdminComponent implements OnInit {
 
   eliminarTarifa() {
     if (!this.confirmTarifa) return;
-  
-    console.log('Eliminando tarifa con ID:', this.confirmTarifa.id); // 👈 VERIFICACIÓN
-  
+
     this.http.delete(`${this.tarifaUrl}/${this.confirmTarifa.id}`).subscribe(
       () => {
         this.deleteSuccess = true;
@@ -193,10 +255,11 @@ export class FeeAdminComponent implements OnInit {
         setTimeout(() => this.deleteSuccess = false, 3000);
       },
       (error) => {
-        console.error('Error al eliminar tarifa:', error); // 👈 VERIFICA SI HAY ERROR
+        console.error('Error al eliminar tarifa:', error);
         this.deleteError = true;
         setTimeout(() => this.deleteError = false, 3000);
       }
     );
-  }  
+  }
+  
 }

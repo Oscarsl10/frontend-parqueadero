@@ -38,13 +38,14 @@
     <!-- Tarifa -->
     <div class="mb-3">
       <label for="nombreTarifa" class="form-label">Nombre de Tarifa:</label>
-      <select id="nombreTarifa" class="form-select" [(ngModel)]="vehiculo.idTarifa" name="idTarifa" required>
-        <option value="">Seleccione una tarifa</option>
-        <option *ngFor="let tarifa of tarifasFiltradas" [value]="tarifa.id">
-          {{ tarifa.nombreTarifa }} - {{ tarifa.precio | currency:'COP':'symbol' }}
-        </option>
+      <select id="nombreTarifa" class="form-select" [(ngModel)]="vehiculo.tarifa" name="tarifa" required>
+        <option [ngValue]="null">Seleccione una tarifa</option>
+        <option *ngFor="let tarifa of tarifasFiltradas" [ngValue]="tarifa">
+          {{ tarifa.tipo_tarifa?.tipo_tarifa }} - {{ tarifa.precio | currency:'COP':'symbol' }}
+        </option>        
       </select>
     </div>
+    
 
     <div class="mb-3">
       <label for="entrada" class="form-label">Fecha y Hora de Entrada:</label>

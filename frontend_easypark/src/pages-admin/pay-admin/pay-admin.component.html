@@ -28,7 +28,8 @@
     <div *ngIf="vehiculoEncontrado">
       <p><strong>Tipo de Vehículo:</strong> {{ tipoVehiculo }}</p>
       <p><strong>Hora de Entrada:</strong> {{ entrada | date:'yyyy-MM-dd HH:mm' }}</p>
-      <p><strong>Tarifa:</strong> {{ tarifa?.nombreTarifa }} - {{ tarifa?.precio | currency:'COP' }}</p>
+      <p><strong>Tarifa:</strong> {{ tarifa?.tipo_tarifa?.tipo_tarifa }} - {{ tarifa?.precio | currency:'COP' }}</p>
+
 
 
       <!-- Hora de salida -->
@@ -43,6 +44,11 @@
       <p><strong>Valor a Pagar:</strong> {{ valorAPagar | currency:'COP' }}</p>
 
       <button type="submit" class="btn btn-primary w-100">Registrar Pago</button>
+    </div>
+    <div *ngIf="idFacturaGenerada" class="text-center mt-3">
+      <a class="btn btn-success" [routerLink]="['/admin/invoice', idFacturaGenerada]">
+        <i class="bi bi-receipt"></i> Ver Factura
+      </a>
     </div>
   </form>
 </div>

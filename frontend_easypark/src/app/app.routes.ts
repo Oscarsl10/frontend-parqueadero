@@ -15,6 +15,9 @@ import { PayAdminComponent } from '../pages-admin/pay-admin/pay-admin.component'
 import { VehiculeAdminComponent } from '../pages-admin/vehicule-admin/vehicule-admin.component';
 import { FeeReadComponent } from '../pages-admin/fee-read/fee-read.component';
 import { FeeComponent } from '../pages-user/fee/fee.component';
+import { HeaderAdminComponent } from '../pages-admin/header-admin/header-admin.component';
+import { InvoiceAdminComponent } from '../pages-admin/invoice-admin/invoice-admin.component';
+import { ViewInvoiceAdminComponent } from '../pages-admin/view-invoice-admin/view-invoice-admin.component';
 
 
 export const routes: Routes = [
@@ -35,6 +38,8 @@ export const routes: Routes = [
   { path: 'admin/pay', component: PayAdminComponent},
   { path: 'admin/vehicule', component: VehiculeAdminComponent},
   { path: 'admin/feeread', component: FeeReadComponent},
+  { path: 'admin/invoice/:id', component: InvoiceAdminComponent},
+  { path: 'admin/view_invoice', component: ViewInvoiceAdminComponent},
   { path: 'fee', component: FeeComponent},
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];

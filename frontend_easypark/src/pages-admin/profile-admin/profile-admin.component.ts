@@ -16,15 +16,16 @@ export class ProfileAdminComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-    this.adminEmail = sessionStorage.getItem('adminEmail');  // Obtiene el email almacenado
-
+    this.adminEmail = sessionStorage.getItem('adminEmail');
+  
     if (this.adminEmail) {
       this.getAdminData();
     } else {
-      console.error("No hay email de admin en sessionStorage");
+      // Evita que el admin entre si no está logueado
+      this.router.navigate(['/admin-login']);
     }
   }
-
+  
   getAdminData(): void {
     if (!this.adminEmail) {
       console.error('No se encontró un email válido para la consulta.');
@@ -48,8 +49,10 @@ export class ProfileAdminComponent {
   }
   
   logout() {
+    this.adminData = {}; // Limpia los datos del admin
     sessionStorage.clear(); // Borra la sesión del usuario
     this.router.navigate(['/admin/home']); // Redirige al home
   }
+  
   
 }

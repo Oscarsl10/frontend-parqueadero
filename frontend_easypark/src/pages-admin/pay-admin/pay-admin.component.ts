@@ -11,7 +11,7 @@ import { HeaderAdminComponent } from "../header-admin/header-admin.component";
   templateUrl: './pay-admin.component.html',
   styleUrls: ['./pay-admin.component.css']
 })
-export class PayAdminComponent implements OnInit{
+export class PayAdminComponent implements OnInit {
   placa: string = '';
   salida: string = '';
   entrada: string = '';
@@ -24,9 +24,11 @@ export class PayAdminComponent implements OnInit{
   registerSuccess: boolean = false;
   registerError: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  idFacturaGenerada: number | null = null;
 
-  ngOnInit(): void {}
+  constructor(private http: HttpClient) { }
+
+  ngOnInit(): void { }
 
   buscarVehiculo() {
     this.http.get<any[]>('http://localhost:8082/api/registroVehiculo')
@@ -43,7 +45,7 @@ export class PayAdminComponent implements OnInit{
           alert("Vehículo no encontrado.");
         }
       });
-  }  
+  }
 
   registrarPago() {
     if (!this.vehiculoId || !this.salida) {
@@ -73,17 +75,30 @@ export class PayAdminComponent implements OnInit{
     this.valorAPagar = pagar;
 
     const datosPago = {
-      salida: salidaDate,
+      salida: this.salida,
       valorAPagar: this.valorAPagar,
       registroVehiculo: { id: this.vehiculoId },
       tarifa: { id: this.tarifa.id }
     };
 
-    this.http.post('http://localhost:8082/api/pago', datosPago)
+    this.http.post<any>('http://localhost:8082/api/pago', datosPago)
       .subscribe(
-        () => {
+        (pago) => {
           this.registerSuccess = true;
           this.registerError = false;
+
+          const pagoId = pago.id;
+
+          // Llamar la factura asociada
+          this.http.get<any>(`http://localhost:8082/api/factura/pago/${pagoId}`)
+            .subscribe(factura => {
+              console.log('Factura generada:', factura);
+              this.idFacturaGenerada = factura.id;
+              // aquí puedes redirigir o guardar la factura para mostrarla
+              // por ejemplo, navegar a una vista de factura
+              // this.router.navigate(['/factura', factura.id]);
+            });
+
           setTimeout(() => this.registerSuccess = false, 3000);
         },
         () => {

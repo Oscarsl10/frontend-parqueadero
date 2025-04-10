@@ -15,7 +15,7 @@ export class VehiculeAdminComponent implements OnInit {
   vehiculo = {
     placa: '',
     tipoVehiculoId: null,
-    idTarifa: null,
+    tarifa: null,
     entrada: ''
   };
 
@@ -64,7 +64,7 @@ export class VehiculeAdminComponent implements OnInit {
   }
 
   agregarVehiculo() {
-    if (!this.vehiculo.placa || !this.vehiculo.tipoVehiculoId || !this.vehiculo.idTarifa || !this.vehiculo.entrada) {
+    if (!this.vehiculo.placa || !this.vehiculo.tipoVehiculoId || !this.vehiculo.tarifa || !this.vehiculo.entrada) {
       this.registerError = true;
       setTimeout(() => this.registerError = false, 3000);
       return;
@@ -73,8 +73,8 @@ export class VehiculeAdminComponent implements OnInit {
     const datos = {
       placa: this.vehiculo.placa,
       tipoVehiculo: this.obtenerNombreTipoVehiculo(parseInt(this.vehiculo.tipoVehiculoId)),
-      tarifa: { id: parseInt(this.vehiculo.idTarifa) },
-      entrada: this.vehiculo.entrada  // Fecha y hora en formato ISO
+      entrada: this.vehiculo.entrada,
+      tarifa: this.vehiculo.tarifa
     };
 
     this.http.post('http://localhost:8082/api/registroVehiculo', datos).subscribe(
@@ -96,10 +96,9 @@ export class VehiculeAdminComponent implements OnInit {
     this.vehiculo = {
       placa: '',
       tipoVehiculoId: '',
-      idTarifa: '',
+      tarifa: null,
       entrada: ''
     };
     this.tarifasFiltradas = [];
- 
   }
 }

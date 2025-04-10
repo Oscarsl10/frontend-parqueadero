@@ -5,10 +5,14 @@
 
   <!-- BOTONES PARA MOSTRAR FORMULARIOS -->
   <div class="mb-4">
-    <button class="btn btn-outline-success me-2" (click)="mostrarFormularioTipoVehiculo = !mostrarFormularioTipoVehiculo">
+    <button class="btn btn-outline-success me-2"
+      (click)="mostrarFormularioTipoVehiculo = !mostrarFormularioTipoVehiculo">
       {{ mostrarFormularioTipoVehiculo ? 'Ocultar formulario de tipo de vehículo' : 'Agregar tipo de vehículo' }}
     </button>
-    <button class="btn btn-outline-primary" (click)="mostrarFormulario = !mostrarFormulario">
+    <button class="btn btn-outline-primary me-2" (click)="mostrarFormularioTipoTarifa = !mostrarFormularioTipoTarifa">
+      {{ mostrarFormularioTipoTarifa ? 'Ocultar formulario de tipo de tarifa' : 'Agregar tipo de tarifa' }}
+    </button>
+    <button class="btn btn-outline-info" (click)="mostrarFormulario = !mostrarFormulario">
       {{ mostrarFormulario ? 'Ocultar formulario de tarifa' : 'Agregar nueva tarifa' }}
     </button>
   </div>
@@ -17,23 +21,38 @@
   <div *ngIf="mostrarFormularioTipoVehiculo" class="card card-body border-success mb-4">
     <h5>Registrar nuevo tipo de vehículo</h5>
     <div class="mb-3">
-      <label for="nombreTipoVehiculo" class="form-label">Nombre del tipo de vehículo</label>
-      <input type="text" id="nombreTipoVehiculo" class="form-control" [(ngModel)]="nuevoTipoVehiculo.nombre">
+      <label class="form-label">Nombre del tipo de vehículo</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoTipoVehiculo.nombre">
     </div>
     <button class="btn btn-success" (click)="agregarTipoVehiculo()">Registrar</button>
 
-    <div *ngIf="tipoVehiculoDuplicado" class="alert alert-warning d-flex align-items-center mt-3" role="alert">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      <div>Ya existe un tipo de vehículo con ese nombre.</div>
+    <app-alerta *ngIf="tipoVehiculoDuplicado" tipo="warning" mensaje="Ya existe un tipo de vehículo con ese nombre."
+      [cerrable]="true"></app-alerta>
+    <app-alerta *ngIf="tipoVehiculoSuccess" tipo="success" mensaje="Tipo de vehículo registrado exitosamente."
+      [cerrable]="true"></app-alerta>
+    <app-alerta *ngIf="tipoVehiculoError" tipo="danger" mensaje="Error al registrar el tipo de vehículo."
+      [cerrable]="true"></app-alerta>
+  </div>
+
+  <!-- FORMULARIO: NUEVO TIPO DE TARIFA -->
+  <div *ngIf="mostrarFormularioTipoTarifa" class="card card-body border-info mb-4">
+    <h5>Registrar nuevo tipo de tarifa</h5>
+    <div class="mb-3">
+      <label class="form-label">Nombre del tipo de tarifa</label>
+      <input type="text" class="form-control" [(ngModel)]="nuevoTipoTarifa.nombre">
     </div>
-    <div *ngIf="tipoVehiculoSuccess" class="alert alert-success d-flex align-items-center mt-3" role="alert">
-      <i class="bi bi-check-circle-fill me-2"></i>
-      <div>Tipo de vehículo registrado exitosamente.</div>
-    </div>
-    <div *ngIf="tipoVehiculoError" class="alert alert-danger d-flex align-items-center mt-3" role="alert">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      <div>Error al registrar el tipo de vehículo.</div>
-    </div>
+    <button class="btn btn-primary" (click)="registrarTipoTarifa()">
+      Registrar nuevo tipo de tarifa
+    </button>
+
+
+
+    <app-alerta *ngIf="tipoTarifaDuplicado" tipo="warning" mensaje="Ya existe un tipo de tarifa con ese nombre."
+      [cerrable]="true"></app-alerta>
+    <app-alerta *ngIf="tipoTarifaSuccess" tipo="success" mensaje="Tipo de tarifa registrado exitosamente."
+      [cerrable]="true"></app-alerta>
+    <app-alerta *ngIf="tipoTarifaError" tipo="danger" mensaje="Error al registrar el tipo de tarifa."
+      [cerrable]="true"></app-alerta>
   </div>
 
   <!-- FORMULARIO: NUEVA TARIFA -->
@@ -41,61 +60,55 @@
     <h5>Registrar nueva tarifa</h5>
 
     <div class="mb-3">
-      <label for="tipoVehiculo" class="form-label">Tipo de Vehículo</label>
-      <select [(ngModel)]="nuevaTarifa.tipoVehiculoId" name="tipoVehiculo" class="form-select">
-        <option value="" disabled selected>Seleccione un tipo de vehículo</option>
-        <option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">{{ tipo.tipo_vehiculo }}</option>
+      <label class="form-label" for="tipoVehiculo">Tipo de Vehículo</label>
+      <select id="tipoVehiculo" [(ngModel)]="nuevaTarifa.tipoVehiculoId" class="form-control">
+        <option [ngValue]="null" disabled selected>Seleccione un tipo de vehículo</option>
+        <option *ngFor="let tipo of tiposVehiculo" [value]="tipo.id">
+          {{ tipo.tipo_vehiculo }}
+        </option>
       </select>
     </div>
-    
+
+
     <div class="mb-3">
-      <label for="nombreTarifa" class="form-label">Tipo de tarifa (ej: Por minuto, Por hora)</label>
-      <input type="text" id="nombreTarifa" class="form-control" [(ngModel)]="nuevaTarifa.nombreTarifa">
+      <label class="form-label">Tipo de Tarifa</label>
+      <select class="form-control" [(ngModel)]="nuevaTarifa.tipoTarifaId">
+        <option value="" disabled selected>Seleccione el tipo de tarifa</option>
+        <option *ngFor="let tipo of tiposTarifa" [value]="tipo.id">
+          {{ tipo.tipo_tarifa }}
+        </option>
+      </select>
     </div>
 
     <div class="mb-3">
-      <label for="precio" class="form-label">Precio</label>
-      <input type="number" id="precio" class="form-control" [(ngModel)]="nuevaTarifa.precio">
-    </div>
-
-    <div class="mb-3">
-      <label for="fecha" class="form-label">Fecha</label>
-      <input type="date" id="fecha" class="form-control" [(ngModel)]="nuevaTarifa.fecha">
+      <label class="form-label">Precio</label>
+      <input type="number" class="form-control" [(ngModel)]="nuevaTarifa.precio" min="1">
     </div>
 
     <button class="btn btn-primary" (click)="agregarTarifa()">Registrar tarifa</button>
 
-    <div *ngIf="registerSuccess" class="alert alert-success d-flex align-items-center mt-3" role="alert">
-      <i class="bi bi-check-circle-fill me-2"></i>
-      <div>Tarifa registrada exitosamente.</div>
-    </div>
-    <div *ngIf="registerError" class="alert alert-danger d-flex align-items-center mt-3" role="alert">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      <div>Error al registrar la tarifa.</div>
-    </div>
-    <div *ngIf="validacionError" class="alert alert-warning d-flex align-items-center mt-3" role="alert">
-      <i class="bi bi-exclamation-circle-fill me-2"></i>
-      <div>Por favor completa todos los campos antes de registrar.</div>
-    </div>
+    <app-alerta *ngIf="registerSuccess" tipo="success" mensaje="Tarifa registrada exitosamente."
+      [cerrable]="true"></app-alerta>
+    <app-alerta *ngIf="registerError" tipo="danger" mensaje="Error al registrar la tarifa."
+      [cerrable]="true"></app-alerta>
+    <app-alerta *ngIf="validacionError" tipo="warning" mensaje="Por favor completa todos los campos."
+      [cerrable]="true"></app-alerta>
   </div>
 
-  <!-- LISTADO DE TARIFAS -->
   <table class="table table-bordered table-hover">
     <thead class="table-light">
       <tr>
         <th>Tipo de vehículo</th>
         <th>Tipo de tarifa</th>
         <th>Precio</th>
-        <th>Fecha</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let tarifa of tarifas">
         <td>{{ tarifa.tipo_vehiculo?.tipo_vehiculo }}</td>
-        <td>{{ tarifa.nombreTarifa }}</td>
+        <td>{{ tarifa.tipo_tarifa?.tipo_tarifa }}</td>
         <td>${{ tarifa.precio | number: '1.0-0' }}</td>
-        <td>{{ tarifa.fecha }}</td>
         <td>
           <input type="number" [(ngModel)]="tarifa.precio" class="form-control d-inline w-auto me-2" />
           <button class="btn btn-sm btn-outline-primary me-1" (click)="editarTarifa(tarifa)">Actualizar</button>
@@ -106,12 +119,8 @@
   </table>
 
   <!-- CONFIRMACIÓN DE ELIMINACIÓN -->
-  <div *ngIf="confirmTarifa" class="alert alert-danger d-flex align-items-center justify-content-between mt-3"
-    role="alert">
-    <div>
-      <i class="bi bi-trash-fill me-2"></i>
-      ¿Estás seguro que deseas eliminar esta tarifa?
-    </div>
+  <div *ngIf="confirmTarifa" class="alert alert-danger d-flex justify-content-between mt-3">
+    <div>¿Estás seguro que deseas eliminar esta tarifa?</div>
     <div>
       <button class="btn btn-sm btn-danger me-2" (click)="eliminarTarifa()">Sí</button>
       <button class="btn btn-sm btn-secondary" (click)="cancelarEliminacion()">No</button>
@@ -119,21 +128,10 @@
   </div>
 
   <!-- ALERTAS GENERALES -->
-  <div *ngIf="updateSuccess" class="alert alert-success d-flex align-items-center mt-3" role="alert">
-    <i class="bi bi-check-circle-fill me-2"></i>
-    <div>Tarifa actualizada correctamente.</div>
-  </div>
-  <div *ngIf="updateError" class="alert alert-danger d-flex align-items-center mt-3" role="alert">
-    <i class="bi bi-x-circle-fill me-2"></i>
-    <div>Error al actualizar la tarifa.</div>
-  </div>
-
-  <div *ngIf="deleteSuccess" class="alert alert-success d-flex align-items-center mt-3" role="alert">
-    <i class="bi bi-check-circle-fill me-2"></i>
-    <div>Tarifa eliminada correctamente.</div>
-  </div>
-  <div *ngIf="deleteError" class="alert alert-danger d-flex align-items-center mt-3" role="alert">
-    <i class="bi bi-x-circle-fill me-2"></i>
-    <div>Error al eliminar la tarifa.</div>
-  </div>
+  <app-alerta *ngIf="updateSuccess" tipo="success" mensaje="Tarifa actualizada correctamente."
+    [cerrable]="true"></app-alerta>
+  <app-alerta *ngIf="updateError" tipo="danger" mensaje="Error al actualizar la tarifa." [cerrable]="true"></app-alerta>
+  <app-alerta *ngIf="deleteSuccess" tipo="success" mensaje="Tarifa eliminada correctamente."
+    [cerrable]="true"></app-alerta>
+  <app-alerta *ngIf="deleteError" tipo="danger" mensaje="Error al eliminar la tarifa." [cerrable]="true"></app-alerta>
 </div>

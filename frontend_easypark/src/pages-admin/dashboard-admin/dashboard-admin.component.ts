@@ -13,12 +13,14 @@ import { CommonModule } from '@angular/common';
 export class DashboardAdminComponent {
   activeAdmins: any[] = []; // Lista de administradores (empleados)
   activeUsers: any[] = [];  // Lista de usuarios (clientes)
+  facturas: any[] = []; // Lista de facturas
 
   constructor(private httpClient: HttpClient) {}
 
   ngOnInit() {
     this.loadActiveAdmins();
     this.loadActiveUsers();
+    this.loadFacturas();
   }
 
   loadActiveAdmins() {
@@ -45,6 +47,17 @@ export class DashboardAdminComponent {
       },
       (error) => {
         console.error('Error al obtener los usuarios:', error);
+      }
+    );
+  }
+
+  loadFacturas() {
+    this.httpClient.get<any[]>('http://localhost:8082/api/factura').subscribe(
+      (data) => {
+        this.facturas = data;
+      },
+      (error) => {
+        console.error('Error al obtener las facturas:', error);
       }
     );
   }
