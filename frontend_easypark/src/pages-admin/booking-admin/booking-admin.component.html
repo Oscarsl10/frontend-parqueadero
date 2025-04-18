@@ -1,0 +1,35 @@
+<app-header-admin></app-header-admin>
+
+<div class="container">
+    <h2>Listado de Reservas</h2>
+  
+    <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Usuario (Email)</th>
+            <th>Placa Vehículo</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Precio</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reserva of reservas">
+            <td>{{ reserva.id }}</td>
+            <td>{{ reserva.users?.email }}</td>
+            <td>{{ reserva.vehiculo?.placa }}</td>
+            <td>{{ reserva.fechaInicio | date: 'short' }}</td>
+            <td>{{ reserva.fechaFin | date: 'short' }}</td>
+            <td>{{ reserva.precio | currency: 'COP' }}</td>
+            <td>{{ reserva.status ? 'Activa' : 'Inactiva' }}</td>
+          </tr>
+        </tbody>
+      </table>
+  
+    <ng-template #noData>
+      <p>No hay reservas registradas.</p>
+    </ng-template>
+  </div>
+  

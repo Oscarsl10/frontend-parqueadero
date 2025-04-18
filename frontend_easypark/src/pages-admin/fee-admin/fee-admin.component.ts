@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HeaderAdminComponent } from "../header-admin/header-admin.component";
 import { FeeReadComponent } from "../fee-read/fee-read.component";
+import { AuthAdminService } from '../services-admin/auth-admin.service';
 
 @Component({
   selector: 'app-fee-admin',
@@ -14,6 +15,7 @@ import { FeeReadComponent } from "../fee-read/fee-read.component";
   styleUrls: ['./fee-admin.component.css'] // ← aquí estaba mal escrito como `styleUrl`
 })
 export class FeeAdminComponent implements OnInit {
+
   nuevaTarifa = {
     tipoVehiculoId: '',
     tipoTarifaId: '',
@@ -65,9 +67,10 @@ export class FeeAdminComponent implements OnInit {
   private vehiculoUrl = 'http://localhost:8082/api/tipo_vehiculo';
   private tipoTarifaUrl = 'http://localhost:8082/api/tipo_tarifa';
 
-  constructor(private http: HttpClient) {}
+  constructor( private http: HttpClient, private authService: AuthAdminService, private router: Router) {}
 
   ngOnInit() {
+    this.authService.requireLogin();
     this.cargarTarifas();
     this.cargarTiposVehiculo();
     this.cargarTiposTarifa();

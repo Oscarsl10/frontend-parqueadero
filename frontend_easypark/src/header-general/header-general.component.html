@@ -1,17 +1,22 @@
-<div>
-    <header class="navbar">
-    <div class="logo"> 🅿️ <strong><span class="easy">EASY</span> <span class="park">PARK</span></strong></div>
-    
-    <nav>
-        <a href="#">Inicio</a>
-        <a href="#">Planes</a>
-        <a href="#">Mis vehiculos</a>
-        <a href="#">Tarifas</a>
-    </nav>
+<header class="navbar">
+  <div class="logo">
+    🅿️ <strong><span class="easy">EASY</span> <span class="park">PARK</span></strong>
+  </div>
 
-    <div class="auth-buttons">
-        <!-- Si el usuario está autenticado -->
-        
+  <nav class="nav-buttons">
+    <div class="menu-container">
+      <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+      <div class="nav-links" [class.active]="menuOpen">
+        <a class="nav-link" routerLink="/">Inicio</a>
+        <a class="nav-link" routerLink="/planss">Planes</a>
+        <a class="nav-link" routerLink="/features">Características</a>
+        <a class="nav-link" routerLink="/contact">Contacto</a>
+      </div>
     </div>
+  </nav>
+
+  <div class="auth-buttons">
+    <button class="btn yellow" routerLink="/login">Iniciar sesión</button>
+    <button class="btn yellow" routerLink="/register">Registro</button>
+  </div>
 </header>
-</div>

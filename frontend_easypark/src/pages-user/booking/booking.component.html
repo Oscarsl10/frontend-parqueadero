@@ -1,0 +1,198 @@
+<app-header-user></app-header-user>
+
+<!-- Mensaje de Éxito -->
+<div *ngIf="reservaSuccess" class="alert alert-success">
+  ¡Reserva realizada con éxito!
+</div>
+
+<!-- Mensaje de Error -->
+<div *ngIf="reservaError" class="alert alert-danger">
+  Hubo un error al realizar la reserva. Por favor, intenta nuevamente.
+</div>
+
+<!-- Advertencia de Datos Incompletos -->
+<div *ngIf="datosIncompletos" class="alert alert-warning">
+  Por favor, completa todos los campos antes de hacer la reserva.
+</div>
+
+<button (click)="mostrarFormulario = !mostrarFormulario">
+  {{ mostrarFormulario ? 'Ocultar formulario' : 'Realizar una reserva' }}
+</button>
+
+<div *ngIf="mostrarFormulario">
+<div class="booking-form">
+  <form (ngSubmit)="hacerReserva()" #reservaForm="ngForm">
+    <!-- Verifica si el usuario está autenticado -->
+    <div *ngIf="usuario">
+      <h3>Reserva para: {{ usuario.full_name }}</h3> <!-- Muestra el nombre completo del usuario -->
+      <p>Email: {{ usuario.email }}</p> <!-- Muestra el email del usuario -->
+    </div>
+    
+    <!-- Vehículo -->
+    <div class="form-group">
+      <label for="vehiculo">Selecciona un vehículo</label>
+      <select
+        [(ngModel)]="vehiculoSeleccionadoId"
+        name="vehiculo"
+        id="vehiculo"
+        class="form-control"
+        required
+      >
+        <option [ngValue]="null">-- Selecciona --</option>
+        <option
+          *ngFor="let vehiculo of vehiculosUsuario"
+          [ngValue]="vehiculo.id"
+        >
+          {{ vehiculo.placa }} - {{ vehiculo.tipoVehiculo }} - {{ vehiculo.color }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Tarifa -->
+    <div class="form-group">
+      <label for="tarifa">Selecciona una tarifa</label>
+      <select
+        [(ngModel)]="tarifaSeleccionadaId"
+        name="tarifa"
+        id="tarifa"
+        class="form-control"
+        required
+      >
+        <option [ngValue]="null">-- Selecciona --</option>
+        <option
+          *ngFor="let tarifa of tarifas"
+          [ngValue]="tarifa.id"
+        >
+          {{ tarifa.tipo_vehiculo?.tipo_vehiculo }} - {{ tarifa.tipo_tarifa?.tipo_tarifa }} - 
+          {{ tarifa.precio | currency:'COP':'symbol':'1.0-0' }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Espacio -->
+    <div class="form-group">
+      <label for="espacio">Seleccionar espacio disponible</label>
+      <select
+        [(ngModel)]="espacioSeleccionadoId"
+        name="espacio"
+        id="espacio"
+        class="form-control"
+        required
+      >
+        <option [ngValue]="null">-- Selecciona --</option>
+        <option
+          *ngFor="let espacio of espaciosDisponibles"
+          [ngValue]="espacio.id"
+          [disabled]="espacio.disponibles === null || espacio.disponibles === 0"
+        >
+          {{ espacio.descripcion }} - Disponibles: {{ espacio.disponibles ?? 'No disponible' }}
+        </option>
+      </select>
+    </div>
+    
+    <!-- Fecha inicio -->
+    <div class="form-group">
+      <label for="fechaInicio">Fecha de inicio</label>
+      <input
+        [(ngModel)]="fechaInicio"
+        name="fechaInicio"
+        id="fechaInicio"
+        type="datetime-local"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <!-- Fecha fin -->
+    <div class="form-group">
+      <label for="fechaFin">Fecha de fin</label>
+      <input
+        [(ngModel)]="fechaFin"
+        name="fechaFin"
+        id="fechaFin"
+        type="datetime-local"
+        class="form-control"
+        (change)="calcularPrecio()"
+        required
+      />
+    </div>
+
+    <!-- Precio -->
+    <div class="form-group">
+      <label for="precio">Precio</label>
+      <input
+        [value]="precio | currency:'COP':'symbol':'1.0-0'"
+        id="precio"
+        type="text"
+        class="form-control"
+        readonly
+      />
+    </div>
+
+    <!-- Botón -->
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!vehiculoSeleccionadoId || !tarifaSeleccionadaId || !espacioSeleccionadoId || !fechaInicio || !fechaFin"
+    >
+      Hacer reserva
+    </button>
+  </form>
+</div>
+</div>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Vehículo</th>
+      <th>Tarifa</th>
+      <th>Espacio</th>
+      <th>Fecha Inicio</th>
+      <th>Fecha Fin</th>
+      <th>Precio</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let reserva of reservas">
+      <td>{{ reserva.vehiculo?.tipoVehiculo}} - {{ reserva.vehiculo?.placa }}</td>
+      <td>{{ reserva.tarifa?.tipo_tarifa.tipo_tarifa }} - ${{ reserva.tarifa?.precio }}</td>
+      <td>{{ reserva.espacio_total?.id}}</td>
+      <td>{{ reserva.fechaInicio }}</td>
+      <td>{{ reserva.fechaFin }}</td>
+      <td>${{ reserva.precio }}</td>
+      <td>
+        <button (click)="editarReserva(reserva)" class="btn btn-warning btn-sm">Editar</button>
+        <button (click)="eliminarReserva(reserva.id)" class="btn btn-danger btn-sm">Eliminar</button>
+      </td>
+    </tr>
+  </tbody>  
+</table>
+
+<!-- Modal de Confirmación -->
+<div *ngIf="mostrarConfirmacion" class="modal">
+  <div class="modal-content">
+    <h2>¿Estás seguro de que deseas eliminar esta reserva?</h2>
+    <button (click)="confirmarEliminacion()">Sí</button>
+    <button (click)="cancelarEliminacion()">No</button>
+  </div>
+</div>
+
+<!-- Aquí continúa el resto de tu código HTML -->
+
+
+<!-- Displaying the error or incomplete data messages -->
+<div *ngIf="reservaError">
+  <p>Hubo un error al realizar la reserva. Inténtalo nuevamente.</p>
+</div>
+
+<div *ngIf="datosIncompletos">
+  <p>Por favor, complete todos los campos para hacer la reserva.</p>
+</div>
+
+
+
+<!-- Si no hay un usuario autenticado -->
+<div *ngIf="!usuario" class="alert alert-warning">
+    Por favor, inicia sesión para realizar una reserva.
+</div>

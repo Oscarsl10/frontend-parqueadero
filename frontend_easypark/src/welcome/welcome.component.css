@@ -1,0 +1,162 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('https://png.pngtree.com/thumb_back/fw800/background/20230610/pngtree-an-empty-parking-garage-at-a-night-time-image_2924867.jpg'); /* Imagen de fondo */
+    background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-attachment: fixed; /* Fija la imagen al hacer scroll */
+    color: white;
+    margin: 0;
+    padding: 0;
+    
+}
+
+/* Barra de navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: yellow;
+}
+
+.easy {
+    color: yellow;
+    font-weight: bold;
+}
+
+.park {
+    color: white;
+    font-weight: bold;
+}
+
+
+.navbar nav {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-buttons .btn {
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.btn.yellow {
+    background-color: yellow;
+    color: black;
+}
+
+.btn.white {
+    background-color: white;
+    color: black;
+}
+
+/* Sección principal */
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    text-align: left;
+    padding: 60px;
+    background: rgba(0, 0, 0, 0.6); /* Oscurece la imagen */
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    position: relative;
+}
+
+.hero-content {
+    max-width: 600px; /* Ajusta el ancho del contenido */
+}
+
+.hero-content p {
+    max-width: 600px; /* Limita el ancho del párrafo */
+    text-align: left;  
+    margin: 0; 
+}
+
+/* Estilo del título */
+.highlight {
+    color: yellow;           
+    font-size: 40px;         
+    font-weight: bold;       
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Ubicación */
+.location {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* 🔹 FORZAR ANCHO COMPLETO */
+    position: absolute; /* Permite que el ancho abarque todo */
+    left: 50px;
+    right: 50px;/* Ocupa todo el ancho de la pantalla */
+    max-width: 100%; /* Asegura que no haya restricciones */
+    
+    /* BORROSO */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-sizing: border-box;
+    
+
+}
+
+.location-text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.btn-search {
+    background-color: yellow;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn.blue {
+    background-color: rgba(255, 255, 96, 0.862); /* Cambia este color al que prefieras */
+    color: #000;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn.red:hover {
+    background-color: #f69e06; /* Color al pasar el cursor */
+}
+
+.auth-buttons div {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre el correo y el botón */
+  }
+  

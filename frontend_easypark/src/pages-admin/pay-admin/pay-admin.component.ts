@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HeaderAdminComponent } from "../header-admin/header-admin.component";
+import { AuthAdminService } from '../services-admin/auth-admin.service';
 
 @Component({
   selector: 'app-pay-admin',
@@ -26,9 +27,11 @@ export class PayAdminComponent implements OnInit {
 
   idFacturaGenerada: number | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthAdminService, private router: Router ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.authService.requireLogin(); // Verifica si hay sesión activa
+   }
 
   buscarVehiculo() {
     this.http.get<any[]>('http://localhost:8082/api/registroVehiculo')

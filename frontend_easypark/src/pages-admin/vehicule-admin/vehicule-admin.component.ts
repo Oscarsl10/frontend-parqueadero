@@ -2,8 +2,9 @@ import { CommonModule, formatCurrency } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HeaderAdminComponent } from "../header-admin/header-admin.component";
+import { AuthAdminService } from '../services-admin/auth-admin.service';
 
 @Component({
   selector: 'app-vehicule-admin',
@@ -26,9 +27,10 @@ export class VehiculeAdminComponent implements OnInit {
   registerSuccess = false;
   registerError = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router, private authService: AuthAdminService) {}
 
   ngOnInit(): void {
+    this.authService.requireLogin(); // Verifica si hay sesión activa
     this.obtenerTarifas();
   }
 

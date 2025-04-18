@@ -1,0 +1,130 @@
+/* Estilo general para el formulario de vehículos */
+.vehiculo-form {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .vehiculo-form h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para el formulario */
+  .vehiculo-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .vehiculo-form div {
+    margin-bottom: 15px;
+  }
+  
+  .vehiculo-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  .vehiculo-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .vehiculo-form input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Estilo para el botón de registrar vehículo */
+  .vehiculo-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .vehiculo-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .vehiculo-form button:disabled {
+    background-color: #c0c0c0;
+    cursor: not-allowed;
+  }
+  
+  /* Estilos para las alertas */
+  .alert {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .alert i {
+    font-size: 20px;
+  }
+  
+  .alert-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+  }
+  
+  .alert-danger {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+  }
+  
+  .alert-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+  }
+  
+  .alert div {
+    margin-left: 10px;
+  }
+  
+  /* Estilos para la lista de vehículos registrados */
+  .vehiculo-form h3 {
+    text-align: center;
+    margin-top: 30px;
+    color: #333;
+    font-size: 22px;
+  }
+  
+  .vehiculo-form ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .vehiculo-form li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .vehiculo-form li p {
+    margin: 5px 0;
+  }
+  
+  .vehiculo-form li p:first-child {
+    font-weight: bold;
+  }
+  

@@ -1,12 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header-general',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './header-general.component.html',
-  styleUrl: './header-general.component.css'
+  styleUrls: ['./header-general.component.css']
 })
 export class HeaderGeneralComponent {
-  
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 }

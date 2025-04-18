@@ -2,6 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HeaderAdminComponent } from "../header-admin/header-admin.component";
+import { AuthAdminService } from '../services-admin/auth-admin.service';
 
 @Component({
   selector: 'app-profile-admin',
@@ -10,32 +11,36 @@ import { HeaderAdminComponent } from "../header-admin/header-admin.component";
   styleUrl: './profile-admin.component.css'
 })
 export class ProfileAdminComponent {
-  adminData: any = {}; // Almacena los datos del admin
-  adminEmail: string | null = ''; // Email del admin desde sessionStorage
+  adminData: any = {};
+  adminEmail: string | null = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthAdminService
+  ) {}
 
   ngOnInit(): void {
+    // ✅ Verifica si hay sesión; si no, redirige automáticamente
+    this.authService.requireLogin();
+
     this.adminEmail = sessionStorage.getItem('adminEmail');
-  
+
     if (this.adminEmail) {
       this.getAdminData();
-    } else {
-      // Evita que el admin entre si no está logueado
-      this.router.navigate(['/admin-login']);
     }
   }
-  
+
   getAdminData(): void {
     if (!this.adminEmail) {
       console.error('No se encontró un email válido para la consulta.');
       return;
     }
-  
+
     this.http.get<any>(`http://localhost:8082/api/getAdmin/${this.adminEmail}`)
       .subscribe(
         (data) => {
-          console.log('Datos recibidos del backend:', data); // 👈 Agrega esto
+          console.log('Datos recibidos del backend:', data);
           if (data) {
             this.adminData = data;
           } else {
@@ -47,12 +52,10 @@ export class ProfileAdminComponent {
         }
       );
   }
-  
+
   logout() {
-    this.adminData = {}; // Limpia los datos del admin
-    sessionStorage.clear(); // Borra la sesión del usuario
-    this.router.navigate(['/admin/home']); // Redirige al home
+    this.adminData = {};
+    this.authService.logout(); // ✅ Usa el servicio para cerrar sesión correctamente
+    this.router.navigate(['/admin/login']);
   }
-  
-  
 }

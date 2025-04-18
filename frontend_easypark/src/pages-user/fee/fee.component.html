@@ -15,7 +15,7 @@
       <tbody>
         <tr *ngFor="let tarifa of tarifas">
           <td>{{ tarifa.tipo_vehiculo?.tipo_vehiculo }}</td>
-          <td>{{ tarifa.nombreTarifa }}</td>
+          <td>{{ tarifa.tipo_tarifa?.tipo_tarifa }}</td>
           <td>{{ tarifa.precio | currency:'COP':'symbol':'1.0-0' }}</td>
         </tr>
       </tbody>

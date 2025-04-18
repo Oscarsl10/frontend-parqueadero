@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HeaderUserComponent } from "../header-user/header-user.component";
+import { AuthUserService } from '../services-user/auth-user.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +23,8 @@ export class ProfileComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthUserService
   ) {
     this.userForm = this.fb.group({
       full_name: [''],
@@ -34,6 +36,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.requireLogin(); // Verifica si hay sesión activa
     this.userEmail = sessionStorage.getItem('userEmail');
     const userData = sessionStorage.getItem('userData');
 
@@ -129,6 +132,7 @@ export class ProfileComponent implements OnInit {
 
   logout() {
     sessionStorage.clear();
-    this.router.navigate(['/home']);
+    this.authService.logout(); // Usa el servicio para cerrar sesión correctamente
+    this.router.navigate(['/login']);
   }
 }

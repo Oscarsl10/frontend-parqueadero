@@ -1,0 +1,40 @@
+<app-header-admin></app-header-admin>
+
+<div class="container">
+  <h2>Registro de Espacio Total</h2>
+
+  <form [formGroup]="espacioForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="espacio_total">Espacio Total:</label>
+      <input id="espacio_total" type="number" formControlName="espacio_total">
+    </div>
+
+    <div>
+      <label for="descripcion">Descripción:</label>
+      <input id="descripcion" type="text" formControlName="descripcion">
+    </div>
+
+    <button type="submit" [disabled]="espacioForm.invalid">Guardar</button>
+
+    <div style="margin-bottom: 20px;">
+      <button class="btn btn-primary" (click)="irAVerReserva()">Ver Reservas</button>
+    </div>
+  </form>
+    
+
+  <p *ngIf="mensaje" style="color: green;">{{ mensaje }}</p>
+  <p *ngIf="error" style="color: red;">{{ error }}</p>
+
+  <hr>
+
+  <h3>Espacios Registrados</h3>
+  <ul>
+    <li *ngFor="let espacio of espacios">
+      <strong>Disponible:</strong> {{ espacio.disponibles }} |
+      <strong>Total:</strong> {{ espacio.espacio_total }} |
+      <strong>Descripción:</strong> {{ espacio.descripcion }}
+      <button (click)="editarEspacio(espacio)">Editar</button>
+      <button (click)="eliminarEspacio(espacio.id)">Eliminar</button>
+    </li>
+  </ul>
+</div>

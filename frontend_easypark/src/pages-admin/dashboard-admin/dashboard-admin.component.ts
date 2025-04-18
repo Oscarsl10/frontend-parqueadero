@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { HeaderAdminComponent } from "../header-admin/header-admin.component";
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthAdminService } from '../services-admin/auth-admin.service';
 
 @Component({
   selector: 'app-dashboard-admin',
@@ -11,16 +12,27 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./dashboard-admin.component.css']
 })
 export class DashboardAdminComponent {
-  activeAdmins: any[] = []; // Lista de administradores (empleados)
-  activeUsers: any[] = [];  // Lista de usuarios (clientes)
-  facturas: any[] = []; // Lista de facturas
+  activeAdmins: any[] = [];
+  activeUsers: any[] = [];
+  facturas: any[] = [];
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+    private authService: AuthAdminService // 👈 Inyectar servicio
+  ) {}
 
   ngOnInit() {
+    // 👇 Verifica que haya sesión, si no hay redirige
+    this.authService.requireLogin();
+
     this.loadActiveAdmins();
     this.loadActiveUsers();
     this.loadFacturas();
+  }
+
+  irAReserva() {
+    this.router.navigate(['admin/reservation']);
   }
 
   loadActiveAdmins() {
@@ -38,7 +50,7 @@ export class DashboardAdminComponent {
   loadActiveUsers() {
     this.httpClient.get<any[]>('http://localhost:8082/api/user').subscribe(
       (response) => {
-        console.log('Usuarios obtenidos del backend:', response); // Verificar la respuesta
+        console.log('Usuarios obtenidos del backend:', response);
         if (response && response.length > 0) {
           this.activeUsers = response;
         } else {

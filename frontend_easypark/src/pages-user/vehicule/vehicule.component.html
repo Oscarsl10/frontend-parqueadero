@@ -1,0 +1,74 @@
+<app-header-user></app-header-user>
+
+<div class="vehiculo-form">
+  <h2>Registrar Vehículo</h2>
+
+  <!-- Formulario para agregar un vehículo -->
+  <form (ngSubmit)="agregarVehiculo()">
+    <div>
+      <label for="placa">Placa:</label>
+      <input type="text" id="placa" [(ngModel)]="vehiculo.placa" name="placa" required />
+    </div>
+
+    <div>
+      <label for="tipoVehiculo">Tipo de Vehículo:</label>
+      <input type="text" id="tipoVehiculo" [(ngModel)]="vehiculo.tipoVehiculo" name="tipoVehiculo" required />
+    </div>
+
+    <div>
+      <label for="color">Color:</label>
+      <input type="text" id="color" [(ngModel)]="vehiculo.color" name="color" required />
+    </div>
+
+    <button type="submit" [disabled]="!vehiculo.placa || !vehiculo.tipoVehiculo || !vehiculo.color">
+      Registrar Vehículo
+    </button>
+  </form>
+
+  <!-- Mensaje de éxito (Vehículo registrado correctamente) -->
+  <div *ngIf="loginSuccess" class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <div>Vehículo registrado exitosamente.</div>
+  </div>
+
+  <!-- Mensaje de error (Placa ya registrada o error al registrar) -->
+  <div *ngIf="loginError" class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <div>El vehículo con esta placa ya está registrado o ocurrió un error al registrar el vehículo.</div>
+  </div>
+
+  <!-- Mensaje de advertencia (Campos incompletos) -->
+  <div *ngIf="dataInvalid" class="alert alert-warning d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-circle-fill me-2"></i>
+    <div>Por favor, complete todos los campos.</div>
+  </div>
+
+  <!-- Alerta de eliminación exitosa -->
+  <div *ngIf="deleteSuccess" class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <div>Vehículo eliminado correctamente.</div>
+  </div>
+
+  <!-- Listado de vehículos registrados -->
+  <div *ngIf="vehiculos.length > 0">
+    <h3>Vehículos Registrados:</h3>
+    <ul>
+      <li *ngFor="let vehiculo of vehiculos">
+        <p>Placa: {{ vehiculo.placa }}</p>
+        <p>Tipo: {{ vehiculo.tipoVehiculo }}</p>
+        <p>Color: {{ vehiculo.color }}</p>
+        <p>Estado: {{ vehiculo.status ? 'Activo' : 'Inactivo' }}</p>
+        <button (click)="mostrarConfirmacion(vehiculo.id)">Eliminar</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Alerta de confirmación personalizada -->
+  <div *ngIf="confirmationPending" class="alert alert-warning d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-circle-fill me-2"></i>
+    <div>¿Estás seguro de que deseas eliminar este vehículo?</div>
+    <button class="btn btn-danger" (click)="confirmarEliminacion()">Confirmar</button>
+    <button class="btn btn-secondary" (click)="cancelarEliminacion()">Cancelar</button>
+  </div>
+
+</div>
