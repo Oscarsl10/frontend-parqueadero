@@ -1,0 +1,43 @@
+<app-header-user></app-header-user>
+
+<div class="calificacion-container">
+  <h2 class="mb-3">Déjanos tu calificación</h2>
+
+  <!-- Alertas Bootstrap -->
+  <div *ngIf="successAlert" class="alert alert-success d-flex align-items-center" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <div>Calificación enviada con éxito.</div>
+  </div>
+
+  <div *ngIf="errorAlert" class="alert alert-danger d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <div>Ocurrió un error al enviar la calificación.</div>
+  </div>
+
+  <div *ngIf="validationError" class="alert alert-warning d-flex align-items-center" role="alert">
+    <i class="bi bi-exclamation-circle-fill me-2"></i>
+    <div>Por favor, complete todos los campos.</div>
+  </div>
+
+
+  <!-- Select de calificación -->
+  <div class="mb-3">
+    <label class="form-label">Calificación *</label>
+    <select class="form-control" [(ngModel)]="calificacion" required>
+      <option value="1">1 - Muy mala</option>
+      <option value="2">2 - Mala</option>
+      <option value="3">3 - Regular</option>
+      <option value="4">4 - Buena</option>
+      <option value="5">5 - Excelente</option>
+    </select>
+  </div>
+
+  <!-- Campo de comentario -->
+  <div class="mb-3">
+    <label class="form-label">Comentario *</label>
+    <textarea class="form-control" rows="4" [(ngModel)]="comentario" required></textarea>
+  </div>
+
+  <!-- Botón para enviar -->
+  <button class="btn btn-primary w-100" (click)="enviarCalificacion()">Enviar</button>
+</div>

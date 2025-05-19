@@ -1,0 +1,33 @@
+ <app-header-user></app-header-user>
+ 
+ <div class="calificacion-container">
+  <h2 class="mb-3">Historial de Reservas</h2>
+<table *ngIf="!loading && pagos.length > 0" class="tabla-pagos">
+    
+  <thead>
+    <tr>
+      <th>Placa</th>
+      <th>Tipo Vehículo</th>
+      <th>Tarifa</th>
+      <th>Método Pago</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let pago of pagos">
+      <td>{{ pago.reserva?.vehiculo?.placa }}</td>
+      <td>{{ pago.reserva?.vehiculo?.tipoVehiculo }}</td>
+      <td>{{ pago.reserva?.tarifa?.tipo_tarifa?.tipo_tarifa }}</td>
+      <td>
+        <span class="badge metodo-pago">{{ pago.metodoPago }}</span>
+      </td>
+      <td><strong class="precio-total">{{ pago.reserva.precio | currency:'COP ' }}</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!loading && pagos.length === 0" class="sin-pagos">
+  <p>No se han encontrado pagos para este usuario.</p>
+</div>
+
+ </div>

@@ -1,0 +1,83 @@
+/* Estilos personalizados para el componente */
+.container {
+  max-width: 1200px;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #000000;
+  font-weight: bold; /* Aplica negrita al título */
+}
+
+.table {
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+  font-family: 'Arial', sans-serif;
+}
+
+.table th, .table td {
+  padding: 15px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #3561cf;
+  color: white;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table-striped tbody tr:hover {
+  background-color: #ddd;
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+.alert i {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+  color: #0c5460;
+}
+
+/* Diseño responsivo para dispositivos pequeños */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .table th, .table td {
+    padding: 10px;
+  }
+}

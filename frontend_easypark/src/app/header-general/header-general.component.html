@@ -1,0 +1,23 @@
+<header class="navbar">
+  <div class="logo">
+    🅿️ <strong><span class="easy">EASY</span> <span class="park">PARK</span></strong>
+  </div>
+
+  <nav class="nav-buttons">
+    <div class="menu-container">
+      <button class="menu-toggle" (click)="toggleMenu()">☰</button>
+      <div class="nav-links" [class.active]="menuOpen">
+        <a class="nav-link" routerLink="/">Inicio</a>
+        
+        <a class="nav-link" routerLink="/features">Características</a>
+        <a class="nav-link" routerLink="/fee">Tarifas</a>
+        <a class="nav-link" routerLink="/user/contact">Contacto</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-buttons">
+    <button class="btn yellow" routerLink="/login">Iniciar sesión</button>
+    <button class="btn yellow" routerLink="/register">Registro</button>
+  </div>
+</header>

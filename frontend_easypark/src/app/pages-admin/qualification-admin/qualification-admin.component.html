@@ -1,0 +1,56 @@
+<app-header-admin></app-header-admin>
+
+<div class="container mt-4">
+  <h2>Calificaciones de los usuarios</h2>
+
+  <!-- Alerta de éxito -->
+  <div *ngIf="successAlert" class="alert alert-success" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    <div>Calificaciones cargadas correctamente.</div>
+  </div>
+
+  <!-- Alerta de error -->
+  <div *ngIf="errorAlert" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    <div>Ocurrió un error al cargar las calificaciones.</div>
+  </div>
+
+  <!-- Cargando -->
+  <div *ngIf="loading" class="alert alert-info" role="alert">
+    <i class="bi bi-clock-fill me-2"></i>
+    <div>Cargando calificaciones...</div>
+  </div>
+
+  <!-- Filtro por calificación -->
+  <div class="mb-3">
+    <label class="form-label">Filtrar por calificación:</label>
+<select class="form-control" [(ngModel)]="filtroCalificacion" (change)="aplicarFiltro()">
+      <option value="">Todas</option>
+      <option value="1">1 - Muy mala</option>
+      <option value="2">2 - Mala</option>
+      <option value="3">3 - Regular</option>
+      <option value="4">4 - Buena</option>
+      <option value="5">5 - Excelente</option>
+    </select>
+  </div>
+
+  <!-- Tabla de calificaciones -->
+  <table *ngIf="!loading" class="table table-striped table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Email</th>
+        <th>Calificación</th>
+        <th>Comentario</th>
+        <th>Fecha</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let calificacion of calificacionesFiltradas">
+        <td>{{ calificacion.users?.email }}</td>
+        <td>{{ calificacion.calificacion }}</td>
+        <td>{{ calificacion.comentario }}</td>
+        <td>{{ calificacion.fecha | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

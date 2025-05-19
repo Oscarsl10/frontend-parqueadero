@@ -1,0 +1,109 @@
+/* Contenedor general del formulario */
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background: #f8f9fa;
+  padding: 20px;
+}
+
+/* Estilo del formulario */
+.contact-form {
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Título */
+.contact-form h2 {
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Etiquetas de campos */
+.contact-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+/* Inputs y Textarea */
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ced4da;
+  border-radius: 12px;
+  transition: border-color 0.3s;
+  font-size: 15px;
+}
+
+/* Estilo en foco */
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #4dabf7;
+  box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.25);
+}
+
+/* Botón enviar */
+.enviar-btn {
+  width: 100%;
+  background-color: #f0dc27;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.enviar-btn:hover {
+  background-color: #ffe600;
+}
+
+/* Alertas (ya vienen con estilos Bootstrap, solo les doy separación) */
+.alert {
+  margin-bottom: 20px;
+  font-size: 14.5px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #f1f1f1;
+    border-top: 6px solid #ffe600;
+    flex-wrap: wrap;
+  }
+
+  .footer-left,
+  .footer-right {
+    flex: 1;
+    min-width: 300px;
+    margin: 10px;
+  }
+
+
+/* Footer */
+.footer {
+  background-color: #e9a70d;
+  color: white;
+  text-align: center;
+  padding: 10px 10px;
+  border-top: 6px solid #ffe600;
+  font-size: 14px;
+  border-radius: 0 0 20px 20px;
+}
+
+

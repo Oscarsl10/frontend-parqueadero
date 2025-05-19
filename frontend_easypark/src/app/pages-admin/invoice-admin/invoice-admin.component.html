@@ -1,0 +1,58 @@
+<app-header-admin></app-header-admin>
+
+<div *ngIf="cargando" class="text-center mt-5">
+  <p>Cargando factura...</p>
+</div>
+
+<div *ngIf="!cargando && factura" class="container mt-4" id="factura">
+  <h2 class="text-center mb-4">Factura N° {{ factura.numeroFactura }}</h2>
+  <p><strong>Fecha de emisión:</strong> {{ factura.fechaEmision | date:'dd/MM/yyyy' }}</p>
+  <hr>
+
+<!-- FACTURA NORMAL -->
+  <ng-container *ngIf="tipo === 'normal'">
+    <h4>Datos del Vehículo</h4>
+    <p><strong>Placa:</strong> {{ factura.registroVehiculo.placa }}</p>
+    <p><strong>Tipo:</strong> {{ factura.registroVehiculo.tipoVehiculo }}</p>
+    <p><strong>Entrada:</strong> {{ factura.registroVehiculo.entrada | date:'short' }}</p>
+    <p><strong>Salida:</strong> {{ factura.pago.salida | date:'short' }}</p>
+    <p><strong>Método de pago:</strong> {{ factura.pago.metodoPago }}</p>
+    <hr>
+    <h4>Tarifa Aplicada</h4>
+    <p><strong>Tipo:</strong> {{ factura.pago.tarifa.tipo_tarifa?.tipo_tarifa }}</p>
+    <p><strong>Precio:</strong> {{ factura.pago.tarifa.precio | currency:'COP' }}</p>
+    <hr>
+    <h4>Valores</h4>
+    <p><strong>Sin IVA:</strong> {{ factura.pago.valorAPagar | currency:'COP' }}</p>
+    <h3>Total: {{ factura.total | currency:'COP' }}</h3>
+  </ng-container>
+  
+  <!-- FACTURA RESERVA -->
+<ng-container *ngIf="tipo === 'reserva'">
+  <h4>Datos de la Reserva</h4>
+  <p><strong>Placa:</strong> {{ factura.vehiculo.placa }}</p>
+  <p><strong>Tipo:</strong> {{ factura.vehiculo.tipoVehiculo }}</p>
+  
+  <p><strong>Desde:</strong> {{ factura.pagoReserva.reserva.fechaInicio | date:'short' }}</p>
+  <p><strong>Hasta:</strong> {{ factura.pagoReserva.reserva.fechaFin | date:'short' }}</p>
+  
+  <p><strong>Precio reserva:</strong> {{ factura.pagoReserva.reserva.precio | currency:'COP ' }}</p>
+  <p><strong>Método de pago:</strong> {{ factura.pagoReserva.metodoPago }}</p>
+  
+  <hr>
+  <h4>Tarifa Aplicada</h4>
+  <p><strong>Tipo:</strong> {{ factura.pagoReserva.reserva.tarifa.tipo_tarifa?.tipo_tarifa }}</p>
+  <p><strong>Precio por unidad:</strong> {{ factura.pagoReserva.reserva.tarifa.precio | currency:'COP ' }}</p>
+  
+  <hr>
+  <h4>Resumen</h4>
+  <h3>Total: {{ factura.total | currency:' COP ' }}</h3>
+</ng-container>
+
+
+  <div class="text-end mt-3">
+    <button class="btn btn-outline-primary" (click)="exportarPDF()">
+      <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
+    </button>
+  </div>
+</div>

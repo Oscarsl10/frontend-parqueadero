@@ -1,0 +1,53 @@
+<app-header-admin></app-header-admin>
+
+<div class="admin-dashboard">
+  <h1 class="dashboard-title">Gestión</h1>
+
+<div style="display: flex; justify-content: center; gap: 10px; margin-bottom: 30px;">
+  <button class="btn btn-primary" (click)="irAReserva()">Ir a Reservas</button>
+  <button class="btn btn-primary" (click)="irAQualification()">Ir a Calificaciones</button>
+  <button class="btn btn-primary" (click)="irAReports()">Ir a Reportes</button>
+</div>
+
+
+
+  <div class="cards-container">
+    <!-- Tarjeta 1: Empleados (Administradores) -->
+    <div class="card">
+      <img
+        src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiflcYxlazQ9Xqw1zXe_mpGWvDZBfyKbNXGVCxR7Pbf-3JsbpGChK6vW4JzpF8TN4qIciFjkzhUZtF2cwqb3L3CTdhhLia_ZOfGTLFE3pGAT6E8m6APxqgrqs1Ks_T9XOkE8LZMzIOtGUA/s1600/18223.jpg"
+        alt="Empleados">
+      <h2>Empleados</h2>
+      <hr />
+      <ul>
+        <li *ngFor="let admin of activeAdmins"><strong>{{ admin.email }}</strong></li>
+      </ul>
+    </div>
+
+    <!-- Tarjeta 2: Revisión ventas -->
+    <div class="card">
+      <img src="https://emprendepyme.net/wp-content/uploads/2023/03/como-hacer-plan-ventas.jpg" alt="Revisión ventas">
+      <h2>Revisión ventas</h2>
+      <hr />
+      <ul>
+        <li *ngFor="let factura of facturas">
+          <strong>{{ factura.fechaEmision | date:'dd/MM/yyyy' }}</strong> -
+          Total: {{ factura.total | currency:'COP' }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tarjeta 3: Usuarios (Clientes) -->
+    <div class="card">
+      <img src="https://www.segurilatam.com/wp-content/uploads/sites/5/2021/12/autenticacion-doble-factor.jpg"
+        alt="Usuarios">
+      <h2>Usuarios</h2>
+      <hr />
+      <ul>
+        <li *ngFor="let user of activeUsers">
+          <strong>{{ user.full_name }}</strong> ({{ user.email }})
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

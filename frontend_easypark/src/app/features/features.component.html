@@ -1,0 +1,19 @@
+<app-header-general></app-header-general>
+
+<div class="container py-5">
+  <h2 class="text-center mb-5 fw-bold">¿Por qué elegir nuestro parqueadero?</h2>
+
+  <div class="row g-4">
+    <div class="col-md-4" *ngFor="let c of caracteristicas">
+      <div class="card h-100 shadow-sm border-0 feature-card">
+        <div class="card-body text-center">
+          <div class="icon mb-3">
+            <i [class]="c.icono" style="font-size: 2.5rem;"></i>
+          </div>
+          <h5 class="card-title fw-semibold">{{ c.titulo }}</h5>
+          <p class="card-text text-muted">{{ c.descripcion }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

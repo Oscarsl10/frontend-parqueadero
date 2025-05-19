@@ -1,0 +1,122 @@
+<app-header-admin></app-header-admin>
+
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Listado de Facturas (Normales y Reservas)</h2>
+
+  <div class="row mb-3">
+    <div class="col-md-3 mb-2">
+      <label class="form-label">Filtro general</label>
+      <input type="text" class="form-control" [(ngModel)]="filtroGeneral" (input)="filtrar()" placeholder="Buscar por texto..." />
+    </div>
+
+    <div class="col-md-2 mb-2">
+      <label class="form-label">Buscar por placa</label>
+      <input type="text" class="form-control" [(ngModel)]="filtroPlaca" (input)="filtrar()" placeholder="Ej: ABC123" />
+    </div>
+
+    <div class="col-md-2 mb-2">
+      <label class="form-label">Tipo de factura</label>
+      <select class="form-select" [(ngModel)]="filtroTipoFactura" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option value="normal">Normales</option>
+        <option value="reserva">Reservas</option>
+      </select>
+    </div>
+
+    <div class="col-md-2 mb-2">
+      <label class="form-label">Desde</label>
+      <input type="date" class="form-control" [(ngModel)]="filtroFechaInicio" (change)="filtrar()" />
+    </div>
+
+    <div class="col-md-2 mb-2">
+      <label class="form-label">Hasta</label>
+      <input type="date" class="form-control" [(ngModel)]="filtroFechaFin" (change)="filtrar()" />
+    </div>
+
+    <div class="col-md-3 mb-2">
+      <label class="form-label">Tipo de vehículo</label>
+      <select class="form-select" [(ngModel)]="filtroTipoVehiculo" (change)="filtrar()">
+        <option value="">Todos</option>
+        <option *ngFor="let tipo of tiposVehiculo" [value]="tipo">{{ tipo }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Botones -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <button class="btn btn-outline-secondary" (click)="toggleOrden()">
+        Ordenar por placa {{ ordenAscendente ? '(A-Z)' : '(Z-A)' }}
+      </button>
+      <button class="btn btn-outline-warning ms-2" (click)="limpiarFiltros()">Limpiar filtros</button>
+    </div>
+    <div>
+      <strong>Total filtrado: {{ totalFiltrado | currency:'COP ' }}</strong>
+    </div>
+    <div>
+      <button class="btn btn-outline-danger" (click)="exportarPDF()">Exportar a PDF</button>
+    </div>
+  </div>
+
+  <!-- Estadísticas -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card text-white bg-success">
+        <div class="card-body">
+          <h5 class="card-title">Día con más ventas</h5>
+          <p class="card-text">{{ diaConMasVentas || 'N/A' }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <h5 class="card-title">Mejor mes</h5>
+          <p class="card-text">{{ mejorMes || 'N/A' }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card text-white bg-danger">
+        <div class="card-body">
+          <h5 class="card-title">Peor mes</h5>
+          <p class="card-text">{{ peorMes || 'N/A' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla -->
+  <div *ngIf="facturasFiltradas.length > 0; else sinFacturas">
+    <table class="table table-bordered table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>N° Factura</th>
+          <th>Fecha Emisión</th>
+          <th>Tipo Factura</th>
+          <th>Placa</th>
+          <th>Tipo Vehículo</th>
+          <th>Tarifa</th>
+          <th>Método Pago</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let f of facturasFiltradas">
+          <td>{{ f.numeroFactura }}</td>
+          <td>{{ f.fechaEmision | date:'dd/MM/yyyy' }}</td>
+          <td>{{ f.registroVehiculo ? 'Normal' : 'Reserva' }}</td>
+          <td>{{ obtenerPlaca(f) }}</td>
+          <td>{{ obtenerTipoVehiculo(f) }}</td>
+          <td>{{ obtenerTarifa(f) }}</td>
+          <td>{{ obtenerMetodoPago(f) }}</td>
+          <td>{{ f.total | currency:'COP ' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #sinFacturas>
+    <p class="text-center">No hay facturas que coincidan con los filtros.</p>
+  </ng-template>
+</div>

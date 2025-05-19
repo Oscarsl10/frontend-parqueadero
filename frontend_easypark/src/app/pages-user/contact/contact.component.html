@@ -1,0 +1,72 @@
+<app-header-user></app-header-user>
+<div class="contact-container">
+    <form #formulario="ngForm" (ngSubmit)="enviar()" class="contact-form">
+        <h2>Contáctanos</h2>
+
+        <!-- Alertas -->
+        <div *ngIf="successAlert" class="alert alert-success d-flex align-items-center" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            <div>Mensaje enviado con éxito.</div>
+        </div>
+
+        <div *ngIf="errorAlert" class="alert alert-danger d-flex align-items-center" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <div>Error al enviar el mensaje. Intenta de nuevo.</div>
+        </div>
+
+        <div *ngIf="warningAlert" class="alert alert-warning d-flex align-items-center" role="alert">
+            <i class="bi bi-exclamation-circle-fill me-2"></i>
+            <div>Por favor, complete todos los campos.</div>
+        </div>
+
+        <!-- Campos -->
+        <label>Nombre *</label>
+        <input type="text" [(ngModel)]="nombre" name="nombre" required>
+
+        <label>Correo electrónico *</label>
+        <input type="email" [(ngModel)]="correo" name="correo" #correoRef="ngModel" required email class="form-control">
+
+        <!-- Mensajes de error -->
+        <div *ngIf="correoRef.invalid && correoRef.touched" class="text-danger">
+            <small *ngIf="correoRef.errors?.['required']">El correo es obligatorio.</small>
+            <small *ngIf="correoRef.errors?.['email']">El formato del correo no es válido.</small>
+        </div>
+
+
+        <label>Asunto *</label>
+        <input type="text" [(ngModel)]="asunto" name="asunto" required>
+
+        <label>Mensaje *</label>
+        <textarea [(ngModel)]="mensaje" name="mensaje" rows="4" required></textarea>
+
+        <button type="submit" class="enviar-btn" [disabled]="!formulario.valid">Enviar</button>
+
+    </form>
+
+</div>
+
+<!-- Footer combinado -->
+<div class="footer-container">
+    <!-- Sección Nosotros -->
+    <div class="footer-left">
+        <h4>Nosotros</h4>
+        <p>
+            EasyPark entiende tus necesidades. Por eso, ponemos a tu disposición una plataforma que facilita la gestión
+            de parqueaderos, optimizando ingresos y reduciendo riesgos.
+        </p>
+    </div>
+
+    <!-- Sección de contacto -->
+    <div class="footer-right">
+        <p>Contacto: easypark.servicio&#64;gmail.com | Tel: +57 300 123 4567</p>
+        <p>Dirección: Calle 123 #45-67, Bogotá, Colombia</p>
+    </div>
+</div>
+
+
+<!-- Footer final -->
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Easy Park. Todos los derechos reservados.</p>
+    </div>
+</footer>

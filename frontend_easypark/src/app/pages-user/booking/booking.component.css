@@ -1,0 +1,157 @@
+/* Contenedor principal */
+.booking-form {
+  background-color: #fdfdfd;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 700px;
+  margin: 20px auto;
+  
+}
+
+/* Títulos */
+h3 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+/* Formularios */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  font-weight: bold;
+  color: #444;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #2b2b2b;
+  outline: none;
+}
+
+/* Botones */
+button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+button.btn-primary {
+  background-color: #525252;
+  color: #fff;
+}
+
+button.btn-primary:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+/* Tabla de reservas */
+table {
+  width: 90%;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+th,
+td {
+  padding: 0.8rem;
+  text-align: center;
+  border-bottom: 1px solid #ccc;
+}
+
+th {
+  background-color: #000000;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Alerts */
+.alert {
+  max-width: 700px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+/* Botón de mostrar/ocultar */
+button.toggle-btn {
+  display: block;
+  margin: 1.5rem auto;
+  background-color: #28a745;
+  color: white;
+}
+
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px; /* Ajusta el tamaño del modal */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Asegura que el modal se muestre encima de otros elementos */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px; /* Bordes redondeados */
+  text-align: center;
+  width: 100%;
+}
+
+button {
+  margin: 5px;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3; /* Cambio de color en hover */
+}
